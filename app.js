@@ -63,7 +63,7 @@
   }
 
   /* ------------------------------------------------------------------
-     2. HTML5 AMBIENT FOREST EMBERS & FIREFLIES CANVAS (#ambient-canvas)
+     2. HTML5 AMBIENT GOLDEN BRASS DUST MOTES CANVAS (#ambient-canvas)
      ------------------------------------------------------------------ */
   function initAmbientCanvas() {
     var canvas = document.getElementById('ambient-canvas');
@@ -75,9 +75,11 @@
     var width = 0;
     var height = 0;
     var particles = [];
-    var count = window.innerWidth < 768 ? 26 : 46;
+    var count = window.innerWidth < 768 ? 20 : 36;
     var pointerX = -1000;
     var pointerY = -1000;
+    var isRunning = true;
+    var animFrameId = null;
 
     function resize() {
       width = window.innerWidth;
@@ -86,25 +88,35 @@
       canvas.height = height;
     }
 
-    function makeParticle() {
-      var isWarm = Math.random() > 0.28;
+    var colorPalettes = [
+      { r: 223, g: 177, b: 91 },  // antique gold
+      { r: 200, g: 157, b: 92 },  // warm brass
+      { r: 236, g: 201, b: 125 }, // light champagne
+      { r: 247, g: 224, b: 168 }  // sparkle highlight
+    ];
+
+    function makeParticle(spawnAnywhere) {
+      var col = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+      var radius = 0.8 + Math.random() * 1.8;
       return {
-        x: Math.random() * width,
-        y: Math.random() * height,
-        r: 1.0 + Math.random() * 2.3,
-        vx: (Math.random() - 0.5) * 0.32,
-        vy: -(0.22 + Math.random() * 0.55),
-        alpha: 0.14 + Math.random() * 0.48,
+        x: Math.random() * (width || window.innerWidth),
+        y: spawnAnywhere ? Math.random() * (height || window.innerHeight) : (height || window.innerHeight) + 12,
+        r: radius,
+        vx: (Math.random() - 0.5) * 0.26,
+        vy: -(0.18 + Math.random() * 0.38),
+        oscSpeed: 0.008 + Math.random() * 0.014,
+        oscAmp: 0.35 + Math.random() * 0.65,
+        baseAlpha: 0.16 + Math.random() * 0.40,
         phase: Math.random() * Math.PI * 2,
-        rCol: isWarm ? 201 : 234,
-        gCol: isWarm ? 164 : 233,
-        bCol: isWarm ? 90 : 230
+        rCol: col.r,
+        gCol: col.g,
+        bCol: col.b
       };
     }
 
     resize();
     for (var i = 0; i < count; i++) {
-      particles.push(makeParticle());
+      particles.push(makeParticle(true));
     }
 
     window.addEventListener('resize', resize, { passive: true });
@@ -113,47 +125,64 @@
       pointerY = e.clientY;
     }, { passive: true });
 
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        isRunning = false;
+        if (animFrameId) cancelAnimationFrame(animFrameId);
+      } else {
+        isRunning = true;
+        animFrameId = requestAnimationFrame(draw);
+      }
+    });
+
     function draw(now) {
+      if (!isRunning) return;
       ctx.clearRect(0, 0, width, height);
-      var boost = 1 + Math.min(2.5, Math.abs(scrollVelocity) * 0.08);
+
+      var boost = 1 + Math.min(2.0, Math.abs(scrollVelocity) * 0.05);
       scrollVelocity *= 0.92;
 
       for (var i = 0; i < particles.length; i++) {
         var p = particles[i];
-        p.x += p.vx * boost;
+        p.phase += p.oscSpeed;
+        p.x += (p.vx + Math.sin(p.phase) * p.oscAmp * 0.15) * boost;
         p.y += p.vy * boost;
-        p.phase += 0.022;
 
         var dx = p.x - pointerX;
         var dy = p.y - pointerY;
         var distSq = dx * dx + dy * dy;
-        if (distSq < 14400 && distSq > 1) {
+        if (distSq < 10000 && distSq > 1) {
           var dist = Math.sqrt(distSq);
-          var force = (120 - dist) / 120;
-          p.x += (dx / dist) * force * 0.8;
-          p.y += (dy / dist) * force * 0.8;
+          var force = (100 - dist) / 100;
+          p.x += (dx / dist) * force * 0.6;
+          p.y += (dy / dist) * force * 0.6;
         }
 
-        if (p.y < -12) {
-          p.y = height + 10;
-          p.x = Math.random() * width;
+        if (p.y < -15) {
+          particles[i] = makeParticle(false);
+          continue;
         }
-        if (p.x < -12) p.x = width + 10;
-        if (p.x > width + 12) p.x = -10;
+        if (p.x < -15) p.x = width + 10;
+        if (p.x > width + 15) p.x = -10;
 
-        var pulse = 0.6 + 0.4 * Math.sin(p.phase + now * 0.0018);
-        var a = p.alpha * pulse;
+        var pulse = 0.65 + 0.35 * Math.sin(p.phase * 1.5 + now * 0.0015);
+        var a = Math.max(0, Math.min(1, p.baseAlpha * pulse));
+
+        var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 2.2);
+        grad.addColorStop(0, 'rgba(' + p.rCol + ',' + p.gCol + ',' + p.bCol + ',' + a.toFixed(3) + ')');
+        grad.addColorStop(0.5, 'rgba(' + p.rCol + ',' + p.gCol + ',' + p.bCol + ',' + (a * 0.45).toFixed(3) + ')');
+        grad.addColorStop(1, 'rgba(' + p.rCol + ',' + p.gCol + ',' + p.bCol + ',0)');
 
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(' + p.rCol + ',' + p.gCol + ',' + p.bCol + ',' + a.toFixed(3) + ')';
+        ctx.arc(p.x, p.y, p.r * 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
         ctx.fill();
       }
 
-      requestAnimationFrame(draw);
+      animFrameId = requestAnimationFrame(draw);
     }
 
-    requestAnimationFrame(draw);
+    animFrameId = requestAnimationFrame(draw);
   }
 
   /* ------------------------------------------------------------------

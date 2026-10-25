@@ -129,7 +129,7 @@ ol {
   outline-offset: 3px;
 }
 
-/* ---------- Ambient Fireflies & Forest Embers Canvas ---------- */
+/* ---------- Ambient Golden Brass Dust Motes Canvas ---------- */
 .ambient-canvas {
   position: fixed;
   inset: 0;
@@ -137,7 +137,7 @@ ol {
   height: 100svh;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.85;
+  opacity: 0.95;
 }
 
 header,
@@ -168,13 +168,13 @@ footer {
 
 /* Smooth fade from #0c0a08 -> warm dark espresso -> #0c0a08 so zero hard line is ever visible */
 .blend-section {
-  background-color: var(--bg);
-  background-image: linear-gradient(180deg, rgba(12, 10, 8, 1) 0%, rgba(25, 20, 14, 0.94) 35%, rgba(25, 20, 14, 0.94) 65%, rgba(12, 10, 8, 1) 100%); /* taste-skill-ignore */
+  background-color: transparent;
+  background-image: linear-gradient(180deg, rgba(12, 10, 8, 0.88) 0%, rgba(25, 20, 14, 0.78) 35%, rgba(25, 20, 14, 0.78) 65%, rgba(12, 10, 8, 0.88) 100%); /* taste-skill-ignore */
 }
 
 .blend-section-alt {
-  background-color: var(--bg);
-  background-image: linear-gradient(180deg, rgba(12, 10, 8, 1) 0%, rgba(20, 17, 13, 0.92) 35%, rgba(20, 17, 13, 0.92) 65%, rgba(12, 10, 8, 1) 100%); /* taste-skill-ignore */
+  background-color: transparent;
+  background-image: linear-gradient(180deg, rgba(12, 10, 8, 0.88) 0%, rgba(20, 17, 13, 0.76) 35%, rgba(20, 17, 13, 0.76) 65%, rgba(12, 10, 8, 0.88) 100%); /* taste-skill-ignore */
 }
 
 /* ---------- Typography Helpers ---------- */
@@ -346,8 +346,8 @@ p {
 
 /* ---------- SECTION 1: HERO PEMBUKA (Unobstructed Split / Stacked) ---------- */
 .hero-section {
-  background-color: var(--bg);
-  background-image: linear-gradient(180deg, rgba(12, 10, 8, 1) 0%, rgba(22, 18, 13, 0.92) 60%, rgba(12, 10, 8, 1) 100%); /* taste-skill-ignore */
+  background-color: transparent;
+  background-image: linear-gradient(180deg, rgba(12, 10, 8, 0.85) 0%, rgba(22, 18, 13, 0.75) 60%, rgba(12, 10, 8, 0.85) 100%); /* taste-skill-ignore */
 }
 
 .hero-wrap {
