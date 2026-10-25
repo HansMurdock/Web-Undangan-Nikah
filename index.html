@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fajar &amp; Salsa — Undangan Pernikahan · Sabtu, 07 November 2026</title>
+  <meta name="description" content="Undangan pernikahan M. Fajar Ardi Alhari, S.Pd. &amp; Salsabila Rahayu, S.Pd. Sabtu, 07 November 2026 di Aula Universitas KH. Ruhiat, Cipasung, Singaparna, Tasikmalaya.">
+  <script>document.documentElement.classList.add('js');</script>
+
+  <!-- Fontshare: Boska (Editorial Serif Display & Text) -->
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=boska@400,500,700&amp;display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HTML5 Ambient Fireflies & Forest Embers Canvas -->
+  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+
+  <!-- SECTION 1: HERO PEMBUKA (Unobstructed Split on Desktop, Clean Stacked on Mobile) -->
+  <header class="hero-section" id="pembuka">
+    <div class="wrap hero-wrap">
+
+      <!-- Top Navigation Bar -->
+      <nav class="hero-top" aria-label="Navigasi utama">
+        <a href="#pembuka" class="wordmark-top">Fajar &amp; Salsa</a>
+        <div class="nav-links">
+          <a href="#ikrar" class="link">Undangan</a>
+          <a href="#mempelai" class="link">Mempelai</a>
+          <a href="#acara" class="link">Waktu &amp; Tempat</a>
+          <a href="#galeri" class="link">Galeri</a>
+          <a href="#rsvp" class="link">Kehadiran</a>
+          <a href="#tanda-kasih" class="link">Tanda Kasih</a>
+          <button type="button" id="sound-toggle" class="audio-btn" aria-pressed="false" aria-label="Putar musik latar">
+            <span id="sound-label">Putar Musik</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Main Hero Grid: Left Editorial Column + Right Automatic Photo Slideshow Stage -->
+      <div class="grid hero-main-grid">
+
+        <!-- Left Column: Title, Real Date & Venue, Guest Card, Actions -->
+        <div class="hero-editorial-col">
+          <div class="hero-title-group">
+            <h1 class="hero-monument lines">
+              <span class="line"><span data-line style="--i:0">FAJAR &amp;</span></span>
+              <span class="line"><span data-line style="--i:1">SALSA</span></span>
+            </h1>
+            <p class="hero-support prose-justify" data-rise style="--i:2">
+              Pernikahan M. Fajar Ardi Alhari, S.Pd. &amp; Salsabila Rahayu, S.Pd.<span class="desktop-only-copy"> pada <time datetime="2026-11-07T09:00:00+07:00">Sabtu, 07 November 2026</time> bertempat di Aula Universitas KH. Ruhiat, Cipasung, Singaparna, Tasikmalaya.</span>
+            </p>
+          </div>
+
+          <aside class="hero-guest-strip" data-rise style="--i:3" aria-label="Kartu tamu undangan">
+            <p class="guest-strip-name" id="guest-name-display">Sahabat &amp; Keluarga Terkasih</p>
+            <p class="small muted">Sabtu, 07 November 2026 · Aula Universitas KH. Ruhiat, Tasikmalaya</p>
+          </aside>
+
+          <div class="hero-cta-row" data-rise style="--i:4" data-ui>
+            <a href="#rsvp" class="btn-primary">Konfirmasi Kehadiran</a>
+            <a href="#tanda-kasih" class="btn-outline">Kirim Tanda Kasih</a>
+          </div>
+        </div>
+
+        <!-- Right Column: Automatic Smooth Crossfade Portrait Slideshow (4 Photos) -->
+        <div class="hero-aperture-col">
+          <figure class="hero-aperture" data-auto-slideshow="3600" data-tilt aria-label="Galeri otomatis potret Fajar dan Salsa">
+            <video
+              class="hero-video-layer"
+              autoplay
+              loop
+              muted
+              playsinline
+              poster="foto%20pasangan/HAW09185.jpg"
+              aria-hidden="true"
+            ></video>
+            <img
+              src="foto%20pasangan/HAW09185.jpg"
+              alt="Fajar dan Salsa bersama mobil klasik Jeep Willys dengan lampu kuning menyala hangat"
+              width="1200"
+              height="1800"
+              fetchpriority="high"
+              class="slide-photo is-visible"
+            >
+            <img
+              src="foto%20pasangan/WCP09490.jpg"
+              alt="Potret Fajar dan Salsa di samping kabin Jeep Willys klasik"
+              width="1200"
+              height="1800"
+              class="slide-photo"
+            >
+            <img
+              src="foto%20pasangan/HAW09158.jpg"
+              alt="Potret Fajar dan Salsa saat senja di bawah pepohonan pinus"
+              width="1200"
+              height="1800"
+              class="slide-photo"
+            >
+            <img
+              src="foto%20pasangan/HAW09182.jpg"
+              alt="Potret monokrom Fajar dan Salsa bersama Jeep Willys"
+              width="1200"
+              height="1800"
+              class="slide-photo"
+            >
+            <div class="slide-dots" data-ui aria-hidden="true">
+              <span class="slide-dot is-active"></span>
+              <span class="slide-dot"></span>
+              <span class="slide-dot"></span>
+              <span class="slide-dot"></span>
+            </div>
+          </figure>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <main id="konten-utama">
+
+    <!-- SECTION 2: SALAM & UNDANGAN (Concise Prayer Quote + Justified Invitation + Auto-Crossfade Portrait) -->
+    <section class="section blend-section" id="ikrar" aria-labelledby="judul-ikrar">
+      <div class="wrap grid intro-grid">
+        <div class="intro-left">
+          <h2 class="head" id="judul-ikrar" data-lines data-reveal data-anim="fade-up" style="--stagger:0">Salam kehormatan</h2>
+          <figure class="intro-portrait shutter auto-frame" data-auto-slideshow="4200" data-reveal data-anim="scale-in" style="--stagger:1" data-tilt>
+            <img
+              src="foto%20pasangan/HAW09173.jpg"
+              alt="Fajar dan Salsa saling menatap hangat"
+              width="900"
+              height="1350"
+              class="slide-photo is-visible"
+            >
+            <img
+              src="foto%20pasangan/WCP09438.jpg"
+              alt="Fajar dan Salsa tersenyum bahagia mengenakan busana hitam"
+              width="900"
+              height="1350"
+              class="slide-photo"
+            >
+            <img
+              src="foto%20pasangan/HAW09191.jpg"
+              alt="Potret monokrom klasik Fajar dan Salsa"
+              width="900"
+              height="1350"
+              class="slide-photo"
+            >
+          </figure>
+        </div>
+
+        <div class="intro-right">
+          <blockquote class="statement-quote" data-reveal data-anim="slide-right" style="--stagger:1">
+            “Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, serta dijadikan-Nya di antaramu rasa kasih dan sayang.”
+          </blockquote>
+
+          <div class="intro-body" data-reveal data-anim="fade-up" style="--stagger:2">
+            <p class="prose-justify">
+              Dengan memohon rahmat dan ridho Allah Subhanahu Wa Ta’ala, kami bermaksud menyelenggarakan acara akad nikah dan resepsi pernikahan putra-putri kami.<span class="desktop-only-copy"> Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak, Ibu, serta Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.</span>
+            </p>
+          </div>
+
+          <div class="intro-facts-row">
+            <article class="fact-box" data-reveal data-anim="slide-left" style="--stagger:2">
+              <p class="fact-value"><time datetime="2026-11-07">Sabtu, 07 November 2026</time></p>
+              <p class="small muted">Akad pukul 09.00 WIB · Resepsi pukul 11.00 – 14.00 WIB</p>
+            </article>
+            <article class="fact-box" data-reveal data-anim="slide-right" style="--stagger:3">
+              <p class="fact-value">Aula Universitas KH. Ruhiat</p>
+              <p class="small muted">Cipakat, Cipasung, Singaparna, Tasikmalaya</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: KEDUA MEMPELAI (100% Real Names, Titles & Parents + Auto-Crossfade Portraits) -->
+    <section class="section blend-section-alt" id="mempelai" aria-labelledby="judul-mempelai">
+      <div class="wrap grid couple-grid">
+        <div class="couple-info">
+          <h2 class="head" id="judul-mempelai" data-lines data-reveal data-anim="fade-up" style="--stagger:0">Kedua mempelai</h2>
+          <p class="prose-justify" data-reveal data-anim="fade-up" style="--stagger:1">
+            Atas izin Allah Subhanahu Wa Ta’ala serta restu kedua keluarga besar, dua hati menyatu dalam ikatan suci pernikahan<span class="desktop-only-copy"> pada hari Sabtu, 07 November 2026</span>.
+          </p>
+
+          <div class="couple-cards">
+            <article class="person-block" data-reveal data-anim="tilt-up" style="--stagger:1">
+              <h3 class="person-name">M. Fajar Ardi Alhari, S.Pd.</h3>
+              <p class="person-parents">
+                Putra ke-1 dari Bapak Arie Satria Tasikmala, S.Pd., M.Pd. &amp; Ibu Windi Hastuti
+              </p>
+            </article>
+
+            <article class="person-block" data-reveal data-anim="tilt-up" style="--stagger:2">
+              <h3 class="person-name">Salsabila Rahayu, S.Pd.</h3>
+              <p class="person-parents">
+                Putri ke-1 dari Bapak Yayat Ruhiyat &amp; Ibu Syafatul Khoeriyah
+              </p>
+            </article>
+          </div>
+        </div>
+
+        <div class="couple-portraits">
+          <figure class="couple-fig shutter auto-frame" data-auto-slideshow="3900" data-reveal data-anim="slide-left" style="--stagger:1" data-tilt>
+            <img
+              src="foto%20pasangan/HAW09063.jpg"
+              alt="Potret M. Fajar Ardi Alhari dan Salsabila Rahayu"
+              width="800"
+              height="1200"
+              class="slide-photo is-visible"
+            >
+            <img
+              src="foto%20pasangan/WCP09422.jpg"
+              alt="Potret kebersamaan Fajar dan Salsa"
+              width="800"
+              height="1200"
+              class="slide-photo"
+            >
+          </figure>
+          <figure class="couple-fig shutter auto-frame" data-auto-slideshow="4500" data-reveal data-anim="slide-right" style="--stagger:2" data-tilt>
+            <img
+              src="foto%20pasangan/HAW09071.jpg"
+              alt="Potret dekat Fajar dan Salsa tersenyum hangat"
+              width="800"
+              height="1200"
+              class="slide-photo is-visible"
+            >
+            <img
+              src="foto%20pasangan/WCP09447.jpg"
+              alt="Potret ceria Fajar dan Salsa di bawah kanopi pinus"
+              width="800"
+              height="1200"
+              class="slide-photo"
+            >
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: WAKTU & TEMPAT ACARA (Real Schedule + Live Countdown + Real Venue Address) -->
+    <section class="section blend-section" id="acara" aria-labelledby="judul-acara">
+      <div class="wrap">
+        <div class="grid schedule-header">
+          <div class="schedule-title-col" data-reveal data-anim="fade-up" style="--stagger:0">
+            <h2 class="head" id="judul-acara" data-lines>Waktu dan tempat</h2>
+          </div>
+          <div class="schedule-lead-col">
+            <p class="prose-justify" data-reveal data-anim="fade-up" style="--stagger:1">
+              InsyaAllah rangkaian acara akad nikah dan resepsi pernikahan akan diselenggarakan pada hari Sabtu, 07 November 2026<span class="desktop-only-copy"> bertempat di Aula Universitas KH. Ruhiat, Singaparna, Tasikmalaya</span>.
+            </p>
+            <!-- Real-time Countdown Strip to Saturday, 07 November 2026 09:00 WIB -->
+            <div class="countdown-strip" id="countdown-strip" data-ui aria-label="Hitung mundur menuju hari pernikahan">
+              <div class="countdown-cell" data-reveal data-anim="scale-in" style="--stagger:0">
+                <span class="countdown-val" id="cd-days">197</span>
+                <span class="small muted">Hari</span>
+              </div>
+              <div class="countdown-cell" data-reveal data-anim="scale-in" style="--stagger:1">
+                <span class="countdown-val" id="cd-hours">21</span>
+                <span class="small muted">Jam</span>
+              </div>
+              <div class="countdown-cell" data-reveal data-anim="scale-in" style="--stagger:2">
+                <span class="countdown-val" id="cd-mins">50</span>
+                <span class="small muted">Menit</span>
+              </div>
+              <div class="countdown-cell" data-reveal data-anim="scale-in" style="--stagger:3">
+                <span class="countdown-val" id="cd-secs">30</span>
+                <span class="small muted">Detik</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ul class="poster-list" aria-label="Susunan acara pernikahan">
+          <li class="grid poster-row" data-reveal data-anim="slide-left" style="--stagger:1">
+            <h3 class="poster-item-name">Akad Nikah</h3>
+            <p class="poster-item-meta muted">Sabtu, 07 November 2026<span class="desktop-only-copy"> · Aula Universitas KH. Ruhiat</span></p>
+            <p class="poster-item-time">Pukul <time datetime="09:00">09.00</time> WIB – Selesai</p>
+          </li>
+          <li class="grid poster-row" data-reveal data-anim="slide-right" style="--stagger:2">
+            <h3 class="poster-item-name">Resepsi</h3>
+            <p class="poster-item-meta muted">Sabtu, 07 November 2026<span class="desktop-only-copy"> · Aula Universitas KH. Ruhiat</span></p>
+            <p class="poster-item-time">Pukul <time datetime="11:00">11.00</time> WIB – <time datetime="14:00">14.00</time> WIB</p>
+          </li>
+        </ul>
+
+        <div class="grid schedule-footer">
+          <address class="schedule-venue-box" data-reveal data-anim="fade-up" style="--stagger:1">
+            <p class="venue-title">Aula Universitas KH. Ruhiat</p>
+            <p class="small muted">Jl. Makmur NU XXIX No. 1, Cipakat, Cipasung, Singaparna, Tasikmalaya</p>
+          </address>
+          <div class="schedule-actions" data-reveal data-anim="fade-up" style="--stagger:2">
+            <a
+              href="https://maps.google.com/?q=Universitas+Islam+KH+Ruhiat+Cipasung+Singaparna+Tasikmalaya"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-primary"
+            >
+              Buka Peta Lokasi
+            </a>
+            <a href="#tanda-kasih" class="btn-outline">Berhalangan Hadir? Buka QRIS</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: GALERI POTRET (Interactive 6-Photo Editorial Grid with Auto-Swap & Lightbox) -->
+    <section class="section blend-section-alt" id="galeri" aria-labelledby="judul-galeri">
+      <div class="wrap">
+        <div class="grid gallery-header">
+          <div class="gallery-title-col" data-reveal data-anim="fade-up" style="--stagger:0">
+            <h2 class="head" id="judul-galeri" data-lines>Galeri bahagia</h2>
+          </div>
+          <div class="gallery-lead-col" data-reveal data-anim="fade-up" style="--stagger:1">
+            <p class="prose-justify">
+              Potret kebersamaan Fajar dan Salsa yang berganti secara lembut dan otomatis.<span class="desktop-only-copy"> Klik pada foto mana saja untuk memperbesar ke tampilan layar penuh.</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="grid gallery-bento">
+          <figure class="gallery-card shutter auto-frame" data-auto-slideshow="4100" data-reveal data-anim="scale-in" style="--stagger:0" data-tilt data-lightbox-src="foto%20pasangan/HAW09185.jpg" data-lightbox-caption="M. Fajar Ardi Alhari, S.Pd. &amp; Salsabila Rahayu, S.Pd.">
+            <img
+              src="foto%20pasangan/HAW09185.jpg"
+              alt="Fajar dan Salsa di atas kap Jeep Willys dengan lampu kuning menyala"
+              width="900"
+              height="1350"
+              class="slide-photo is-visible"
+            >
+            <img
+              src="foto%20pasangan/HAW09158.jpg"
+              alt="Fajar dan Salsa bersama Jeep Willys saat senja"
+              width="900"
+              height="1350"
+              class="slide-photo"
+            >
+          </figure>
+
+          <figure class="gallery-card shutter auto-frame" data-auto-slideshow="4600" data-reveal data-anim="slide-left" style="--stagger:1" data-tilt data-lightbox-src="foto%20pasangan/WCP09447.jpg" data-lightbox-caption="Kebahagiaan Fajar &amp; Salsa di bawah kanopi hutan pinus.">
+            <img
+              src="foto%20pasangan/WCP09447.jpg"
+              alt="Fajar dan Salsa melompat gembira di bawah pohon pinus"
+              width="900"
+              height="1350"
+              class="slide-photo is-visible"
+            >
+            <img
+              src="foto%20pasangan/WCP09438.jpg"
+              alt="Tawa lepas Fajar dan Salsa mengenakan jaket kulit hitam"
+              width="900"
+              height="1350"
+              class="slide-photo"
+            >
+          </figure>
+
+          <figure class="gallery-card shutter auto-frame" data-auto-slideshow="5100" data-reveal data-anim="slide-right" style="--stagger:2" data-tilt data-lightbox-src="foto%20pasangan/WCP09490.jpg" data-lightbox-caption="Potret klasik bersama Jeep Willys 1954.">
+            <img
+              src="foto%20pasangan/WCP09490.jpg"
+              alt="Fajar memegang kemudi Jeep Willys sementara Salsa berdiri di samping kabin"
+              width="900"
+              height="1350"
+              class="slide-photo is-visible"
+            >
+            <img
+              src="foto%20pasangan/HAW09191.jpg"
+              alt="Potret monokrom Fajar dan Salsa bersama Jeep Willys"
+              width="900"
+              height="1350"
+              class="slide-photo"
+            >
+          </figure>
+
+          <figure class="gallery-card shutter auto-frame" data-auto-slideshow="4800" data-reveal data-anim="scale-in" style="--stagger:0" data-tilt data-lightbox-src="foto%20pasangan/WCP09438.jpg" data-lightbox-caption="Senyum bahagia menyambut hari pernikahan Sabtu, 07 November 2026.">
+            <img
+              src="foto%20pasangan/WCP09438.jpg"
+              alt="Fajar dan Salsa tertawa lepas mengenakan kacamata hitam"
+              width="900"
+              height="1350"
+              class="slide-photo is-visible"
+            >
+            <img
+              src="foto%20pasangan/HAW09063.jpg"
+              alt="Potret berdampingan Fajar dan Salsa"
+              width="900"
+              height="1350"
+              class="slide-photo"
+            >
+          </figure>
+
+          <figure class="gallery-card shutter auto-frame" data-auto-slideshow="4300" data-reveal data-anim="slide-left" style="--stagger:1" data-tilt data-lightbox-src="foto%20pasangan/HAW09173.jpg" data-lightbox-caption="Tatapan hangat menjelang malam.">
+            <img
+              src="foto%20pasangan/HAW09173.jpg"
+              alt="Fajar dan Salsa saling menatap hangat di atas kap Jeep Willys"
+              width="900"
+              height="1350"
+              class="slide-photo is-visible"
+            >
+            <img
+              src="foto%20pasangan/HAW09071.jpg"
+              alt="Potret hangat Fajar dan Salsa"
+              width="900"
+              height="1350"
+              class="slide-photo"
+            >
+          </figure>
+
+          <figure class="gallery-card shutter auto-frame" data-auto-slideshow="5300" data-reveal data-anim="slide-right" style="--stagger:2" data-tilt data-lightbox-src="foto%20pasangan/WCP09422.jpg" data-lightbox-caption="Melangkah bersama menuju ikatan suci.">
+            <img
+              src="foto%20pasangan/WCP09422.jpg"
+              alt="Potret Fajar dan Salsa dengan latar langit sore"
+              width="900"
+              height="1350"
+              class="slide-photo is-visible"
+            >
+            <img
+              src="foto%20pasangan/HAW09182.jpg"
+              alt="Potret monokrom malam Fajar dan Salsa"
+              width="900"
+              height="1350"
+              class="slide-photo"
+            >
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: KEHADIRAN & DOA RESTU (Interactive Local CRUD + Live Wishes Feed) -->
+    <section class="section blend-section" id="rsvp" aria-labelledby="judul-rsvp">
+      <div class="wrap grid rsvp-grid">
+        <div class="rsvp-form-col">
+          <h2 class="head" id="judul-rsvp" data-lines data-reveal data-anim="fade-up" style="--stagger:0">Kehadiran dan doa</h2>
+          <p class="prose-justify" data-reveal data-anim="fade-up" style="--stagger:1">
+            Konfirmasikan rencana kehadiran Anda di Aula Universitas KH. Ruhiat atau kirimkan doa restu bagi kedua mempelai.<span class="desktop-only-copy"> Ucapan yang Anda kirimkan tersimpan otomatis dan dapat diperbarui kapan saja.</span>
+          </p>
+
+          <form id="rsvp-form" class="rsvp-form" data-reveal data-anim="tilt-up" style="--stagger:2" novalidate>
+            <input type="hidden" id="rsvp-edit-id" value="">
+            <div class="field-group">
+              <label for="rsvp-name" class="field-label">Nama lengkap Anda</label>
+              <input
+                type="text"
+                id="rsvp-name"
+                name="name"
+                class="field-input"
+                placeholder="Contoh: H. Ahmad Fauzi &amp; Keluarga"
+                required
+              >
+            </div>
+
+            <div class="field-group">
+              <label for="rsvp-status" class="field-label">Status kehadiran</label>
+              <select id="rsvp-status" name="status" class="field-input">
+                <option value="Hadir di Aula Univ. KH. Ruhiat">Hadir langsung di Aula Universitas KH. Ruhiat</option>
+                <option value="Tidak Dapat Hadir · Kirim Doa &amp; Tanda Kasih">Berhalangan hadir (Kirim Doa &amp; Tanda Kasih via QRIS)</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="rsvp-guests" class="field-label">Jumlah kehadiran</label>
+              <select id="rsvp-guests" name="guests" class="field-input">
+                <option value="1 Orang">1 Orang</option>
+                <option value="2 Orang" selected>2 Orang (Berpasangan)</option>
+                <option value="Keluarga">Hadir Bersama Keluarga</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="rsvp-message" class="field-label">Ucapan selamat dan doa restu</label>
+              <textarea
+                id="rsvp-message"
+                name="message"
+                class="field-textarea"
+                placeholder="Tuliskan doa restu untuk M. Fajar Ardi Alhari, S.Pd. &amp; Salsabila Rahayu, S.Pd..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="rsvp-submit-row">
+              <button type="submit" id="rsvp-submit-btn" class="btn-primary">Simpan Konfirmasi &amp; Doa</button>
+              <button type="button" id="rsvp-cancel-edit" class="btn-outline" hidden>Batal Ubah</button>
+            </div>
+            <p id="rsvp-feedback" class="rsvp-feedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="rsvp-live-col">
+          <div class="live-pass-box" data-reveal data-anim="slide-right" style="--stagger:1">
+            <div class="live-pass-row">
+              <p class="live-pass-guest">Sabtu, 07 November 2026</p>
+              <span class="live-pass-tag" id="rsvp-count-badge">3 Ucapan Masuk</span>
+            </div>
+            <p class="small muted">
+              Aula Universitas KH. Ruhiat<span class="desktop-only-copy"> · Jl. Makmur NU XXIX No. 1, Cipakat</span>, Cipasung, Singaparna, Tasikmalaya.
+            </p>
+          </div>
+
+          <div class="wishes-feed" id="wishes-feed" aria-label="Daftar ucapan dan doa sahabat">
+            <article class="wish-item" data-wish-id="default-1" data-reveal data-anim="fade-up" style="--stagger:1">
+              <div class="wish-head">
+                <span class="wish-author">Keluarga Besar Singaparna</span>
+                <span class="wish-badge">Hadir di Aula Univ. KH. Ruhiat</span>
+              </div>
+              <p class="wish-text prose-justify">
+                Barakallahu lakuma wa baraka alaikuma wa jama’a bainakuma fii khair. Selamat menempuh hidup baru untuk Fajar dan Salsa, semoga menjadi keluarga sakinah, mawaddah, warahmah.
+              </p>
+            </article>
+
+            <article class="wish-item" data-wish-id="default-2" data-reveal data-anim="fade-up" style="--stagger:2">
+              <div class="wish-head">
+                <span class="wish-author">Rekan Guru &amp; Dosen Tasikmalaya</span>
+                <span class="wish-badge">Hadir di Aula Univ. KH. Ruhiat</span>
+              </div>
+              <p class="wish-text prose-justify">
+                Selamat berbahagia Bapak M. Fajar Ardi Alhari, S.Pd. dan Ibu Salsabila Rahayu, S.Pd. InsyaAllah kami hadir di Aula Universitas KH. Ruhiat Cipasung pada Sabtu pagi.
+              </p>
+            </article>
+
+            <article class="wish-item" data-wish-id="default-3" data-reveal data-anim="fade-up" style="--stagger:3">
+              <div class="wish-head">
+                <span class="wish-author">Aldi Firmansyah · Bandung</span>
+                <span class="wish-badge">Kirim Doa &amp; Tanda Kasih</span>
+              </div>
+              <p class="wish-text prose-justify">
+                Mohon maaf belum bisa hadir langsung ke Tasikmalaya karena tugas luar kota. Doa terbaik untuk Fajar dan Salsa, tanda kasih sudah dititipkan melalui QRIS di bawah.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: TANDA KASIH DIGITAL & QRIS (Dedicated Bottom Section for Remote Guests) -->
+    <section class="section blend-section-alt" id="tanda-kasih" aria-labelledby="judul-tanda-kasih">
+      <div class="wrap grid gift-grid">
+        <div class="gift-left">
+          <h2 class="head" id="judul-tanda-kasih" data-lines data-reveal data-anim="fade-up" style="--stagger:0">Tanda kasih digital</h2>
+          <p class="prose-justify" data-reveal data-anim="fade-up" style="--stagger:1">
+            <span class="desktop-only-copy">Kehadiran dan doa restu Anda merupakan kebahagiaan terbesar bagi keluarga kami. Namun a</span><span class="mobile-cap-only">A</span>pabila jarak atau waktu menghalangi langkah Anda untuk hadir langsung di Tasikmalaya, Anda dapat mengirimkan tanda kasih melalui pindai kode QRIS maupun transfer rekening di bawah ini.
+          </p>
+
+          <div class="bank-stack">
+            <article class="bank-card" data-reveal data-anim="slide-left" style="--stagger:1">
+              <div>
+                <p class="small muted">Bank Central Asia (BCA) · a.n. M. Fajar Ardi Alhari</p>
+                <p class="bank-number">437 1982 044</p>
+              </div>
+              <button type="button" class="btn-outline" data-copy="4371982044">
+                <span data-copy-label>Salin Rekening BCA</span>
+              </button>
+            </article>
+
+            <article class="bank-card" data-reveal data-anim="slide-left" style="--stagger:2">
+              <div>
+                <p class="small muted">Bank Mandiri · a.n. Salsabila Rahayu</p>
+                <p class="bank-number">131 0094 82711 4</p>
+              </div>
+              <button type="button" class="btn-outline" data-copy="1310094827114">
+                <span data-copy-label>Salin Rekening Mandiri</span>
+              </button>
+            </article>
+
+            <article class="bank-card" data-reveal data-anim="slide-left" style="--stagger:3">
+              <div>
+                <p class="small muted">Lokasi Acara &amp; Penerimaan Tanda Kasih</p>
+                <p class="small">Jl. Makmur NU XXIX No. 1, Cipakat, Cipasung, Singaparna, Tasikmalaya</p>
+              </div>
+              <button type="button" class="btn-outline" data-copy="Jl. Makmur NU XXIX No. 1, Cipakat, Cipasung, Singaparna, Tasikmalaya">
+                <span data-copy-label>Salin Alamat</span>
+              </button>
+            </article>
+          </div>
+        </div>
+
+        <div class="gift-right">
+          <aside class="qris-monument-card" data-reveal data-anim="scale-in" style="--stagger:1" data-tilt aria-label="Kartu QRIS Pernikahan Fajar dan Salsa">
+            <div class="qris-visual-col" data-ui>
+              <p class="small">QRIS Nasional · Fajar &amp; Salsa</p>
+              <div class="qris-canvas-wrap">
+                <canvas id="qris-canvas" width="420" height="420" aria-label="Kode QRIS Tanda Kasih Pernikahan Fajar dan Salsa"></canvas>
+              </div>
+              <p class="small">NMID: ID2026110798114</p>
+            </div>
+
+            <div class="qris-details-col">
+              <h3 class="head">Pindai dari ponsel Anda</h3>
+              <p class="small muted prose-justify">
+                Mendukung seluruh aplikasi perbankan (BCA Mobile, Livin Mandiri, BRImo, BNI) serta dompet digital (GoPay, OVO, DANA, ShopeePay).<span class="desktop-only-copy"> Anda juga dapat mengunduh kartu QRIS ini untuk dipindai langsung dari galeri ponsel.</span>
+              </p>
+
+              <div class="qris-actions">
+                <button type="button" id="download-qris-btn" class="btn-primary">
+                  Unduh Kode QRIS (PNG)
+                </button>
+                <button type="button" id="zoom-qris-btn" class="btn-outline">
+                  Perbesar Layar Penuh
+                </button>
+                <a
+                  href="https://wa.me/6281234567890?text=Assalamu%27alaikum%20Fajar%20%26%20Salsa%2C%20selamat%20menempuh%20hidup%20baru!%20Saya%20telah%20mengirimkan%20tanda%20kasih%20melalui%20QRIS%2FTransfer."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-outline"
+                >
+                  Konfirmasi via WhatsApp
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER: Real Family Names & Venue Details Above, Monument Wordmark Below -->
+  <footer class="site-footer wrap">
+    <div class="grid footer-cols">
+      <div class="footer-col-1" data-reveal data-anim="fade-up" style="--stagger:0">
+        <div class="footer-list">
+          <p>Waktu &amp; Tempat</p>
+          <p class="muted"><time datetime="2026-11-07">Sabtu, 07 November 2026</time></p>
+          <p class="muted">Aula Universitas KH. Ruhiat</p>
+          <p class="muted">Cipakat, Cipasung, Singaparna, Tasikmalaya</p>
+        </div>
+      </div>
+
+      <div class="footer-col-2" data-reveal data-anim="fade-up" style="--stagger:1">
+        <div class="footer-list">
+          <p>Keluarga Mempelai Pria</p>
+          <p class="muted">Bpk. Arie Satria Tasikmala, S.Pd., M.Pd.</p>
+          <p class="muted">&amp; Ibu Windi Hastuti</p>
+        </div>
+      </div>
+
+      <div class="footer-col-3" data-reveal data-anim="fade-up" style="--stagger:2">
+        <div class="footer-list">
+          <p>Keluarga Mempelai Wanita</p>
+          <p class="muted">Bpk. Yayat Ruhiyat</p>
+          <p class="muted">&amp; Ibu Syafatul Khoeriyah</p>
+        </div>
+      </div>
+
+      <div class="footer-col-4" data-reveal data-anim="fade-up" style="--stagger:3">
+        <div class="footer-list">
+          <p>Navigasi Halaman</p>
+          <a href="#pembuka" class="link muted">Pembuka</a>
+          <a href="#mempelai" class="link muted">Kedua Mempelai</a>
+          <a href="#acara" class="link muted">Waktu &amp; Lokasi</a>
+          <a href="#tanda-kasih" class="link muted">QRIS &amp; Tanda Kasih</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-monument-wrap" data-reveal data-anim="scale-in" style="--stagger:1">
+      <svg class="footer-svg-wordmark" viewBox="0 0 1200 175" role="img" aria-label="Fajar dan Salsa">
+        <text
+          x="0"
+          y="142"
+          fill="#eae9e6"
+          font-family="Boska, Georgia, serif"
+          font-size="162"
+          font-weight="500"
+          letter-spacing="-4"
+          textLength="1200"
+          lengthAdjust="spacingAndGlyphs"
+        >FAJAR &amp; SALSA</text>
+      </svg>
+
+      <div class="footer-bottom-bar muted">
+        <span>M. Fajar Ardi Alhari, S.Pd. &amp; Salsabila Rahayu, S.Pd.</span>
+        <span>Sabtu, 07 November 2026 · Tasikmalaya</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL 1: FULLSCREEN QRIS ZOOM -->
+  <div id="qris-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-qris-title" hidden>
+    <div class="modal-card">
+      <h3 id="modal-qris-title" class="head">QRIS Fajar &amp; Salsa</h3>
+      <p class="small muted">Arahkan kamera aplikasi perbankan atau e-wallet Anda ke kode di bawah ini.</p>
+      <div class="qris-canvas-wrap">
+        <canvas id="qris-canvas-modal" width="520" height="520" aria-label="Kode QRIS Ukuran Besar"></canvas>
+      </div>
+      <p class="small muted">M. Fajar Ardi Alhari, S.Pd. &amp; Salsabila Rahayu, S.Pd.</p>
+      <button type="button" id="close-qris-modal" class="btn-primary">Tutup Jendela</button>
+    </div>
+  </div>
+
+  <!-- MODAL 2: INTERACTIVE PHOTO LIGHTBOX -->
+  <div id="lightbox-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption" hidden>
+    <div class="lightbox-card">
+      <img id="lightbox-img" src="foto%20pasangan/HAW09185.jpg" alt="Potret pasangan ukuran penuh" class="lightbox-img">
+      <p id="lightbox-caption" class="small muted"></p>
+      <div class="lightbox-controls">
+        <button type="button" id="lightbox-prev" class="btn-outline">Foto Sebelumnya</button>
+        <button type="button" id="lightbox-close" class="btn-primary">Tutup Foto</button>
+        <button type="button" id="lightbox-next" class="btn-outline">Foto Berikutnya</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pinned CDN Scripts for Smooth Scroll & Scroll-Driven Animations -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
