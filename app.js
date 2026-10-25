@@ -366,17 +366,17 @@
     if (!cards.length || !modal || !modalImg || !modalCap) return;
 
     var allPhotos = [
-      { src: 'foto%20pasangan/HAW09185.jpg', caption: 'M. Fajar Ardi Alhari, S.Pd. & Salsabila Rahayu, S.Pd.' },
-      { src: 'foto%20pasangan/WCP09447.jpg', caption: 'Kebahagiaan Fajar & Salsa di bawah kanopi hutan pinus.' },
-      { src: 'foto%20pasangan/WCP09490.jpg', caption: 'Potret klasik bersama Jeep Willys 1954.' },
-      { src: 'foto%20pasangan/WCP09438.jpg', caption: 'Senyum bahagia menyambut hari pernikahan Sabtu, 07 November 2026.' },
-      { src: 'foto%20pasangan/HAW09173.jpg', caption: 'Tatapan hangat menjelang malam.' },
-      { src: 'foto%20pasangan/WCP09422.jpg', caption: 'Melangkah bersama menuju ikatan suci.' },
-      { src: 'foto%20pasangan/HAW09158.jpg', caption: 'Potret senja di tengah hutan pinus.' },
-      { src: 'foto%20pasangan/HAW09063.jpg', caption: 'Kebersamaan Fajar & Salsa.' },
-      { src: 'foto%20pasangan/HAW09071.jpg', caption: 'Potret hangat kedua mempelai.' },
-      { src: 'foto%20pasangan/HAW09182.jpg', caption: 'Potret monokrom malam Fajar & Salsa.' },
-      { src: 'foto%20pasangan/HAW09191.jpg', caption: 'Siluet klasik di kabin Jeep Willys.' }
+      { src: 'Foto%20Pasangan/HAW09185.jpg', caption: 'M. Fajar Ardi Alhari, S.Pd. & Salsabila Rahayu, S.Pd.' },
+      { src: 'Foto%20Pasangan/WCP09447.jpg', caption: 'Kebahagiaan Fajar & Salsa di bawah kanopi hutan pinus.' },
+      { src: 'Foto%20Pasangan/WCP09490.jpg', caption: 'Potret klasik bersama Jeep Willys 1954.' },
+      { src: 'Foto%20Pasangan/WCP09438.jpg', caption: 'Senyum bahagia menyambut hari pernikahan Sabtu, 07 November 2026.' },
+      { src: 'Foto%20Pasangan/HAW09173.jpg', caption: 'Tatapan hangat menjelang malam.' },
+      { src: 'Foto%20Pasangan/WCP09422.jpg', caption: 'Melangkah bersama menuju ikatan suci.' },
+      { src: 'Foto%20Pasangan/HAW09158.jpg', caption: 'Potret senja di tengah hutan pinus.' },
+      { src: 'Foto%20Pasangan/HAW09063.jpg', caption: 'Kebersamaan Fajar & Salsa.' },
+      { src: 'Foto%20Pasangan/HAW09071.jpg', caption: 'Potret hangat kedua mempelai.' },
+      { src: 'Foto%20Pasangan/HAW09182.jpg', caption: 'Potret monokrom malam Fajar & Salsa.' },
+      { src: 'Foto%20Pasangan/HAW09191.jpg', caption: 'Siluet klasik di kabin Jeep Willys.' }
     ];
     var currentIndex = 0;
 
