@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard 44 Link Tamu Undangan — Fajar &amp; Salsa</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=boska@400,500,700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .dash-wrap {
+      max-width: var(--max);
+      margin-inline: auto;
+      padding: clamp(2rem, 4vw, 3.5rem) var(--margin);
+      display: flex;
+      flex-direction: column;
+      gap: 2.25rem;
+    }
+    .dash-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      border-bottom: 2px solid var(--surface-raised);
+      padding-bottom: 1.75rem;
+    }
+    .dash-controls-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: var(--gutter);
+      align-items: start;
+    }
+    .dash-panel {
+      grid-column: span 6;
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .dash-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .guest-list-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .guest-item-card {
+      grid-column: span 6;
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      padding: 1.25rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .guest-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+    .guest-no-badge {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: var(--step-small);
+    }
+    .guest-title-name {
+      font-family: var(--font-display);
+      font-size: var(--step-lead);
+      color: var(--accent-strong);
+      font-weight: 500;
+    }
+    .guest-url-preview {
+      font-size: var(--step-small);
+      color: var(--muted);
+      background: var(--bg);
+      padding: 0.55rem 0.8rem;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .guest-btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    .guest-btn-group .btn-primary,
+    .guest-btn-group .btn-outline {
+      min-height: 2.55rem;
+      padding: 0.45rem 0.95rem;
+      font-size: var(--step-small);
+    }
+    @media (max-width: 64em) {
+      .dash-panel,
+      .guest-item-card {
+        grid-column: 1 / 13;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="dash-wrap" data-ui>
+    <header class="dash-header">
+      <div class="dash-row" style="justify-content: space-between;">
+        <span class="small muted">Panel Distribusi Undangan Digital · Fajar &amp; Salsa</span>
+        <a href="index.html" class="btn-outline">Lihat Halaman Utama Undangan</a>
+      </div>
+      <h1 class="head">Daftar 44 Link Undangan Kepala Sekolah &amp; Generator Tamu</h1>
+      <p class="muted">
+        Satu website dan satu domain otomatis melayani seluruh 44 nama tamu dari file Excel maupun tamu tambahan lainnya. Klik tombol di bawah setiap nama untuk menyalin link, menyalin pesan WhatsApp siap kirim, atau langsung mengirim ke WhatsApp.
+      </p>
+    </header>
+
+    <section class="dash-controls-grid" aria-label="Pengaturan domain dan generator tamu baru">
+      <!-- Panel 1: Base URL & Search -->
+      <div class="dash-panel">
+        <h2 class="lead">1. Pengaturan Domain &amp; Pencarian Tamu</h2>
+        <div class="field-group">
+          <label class="field-label" for="base-url-input">Alamat Website / Domain Utama Anda (otomatis terdeteksi):</label>
+          <input type="text" id="base-url-input" class="field-input" value="">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="search-guest-input">Cari Nama Kepala Sekolah atau Nama SMP (dari 44 Daftar):</label>
+          <input type="search" id="search-guest-input" class="field-input" placeholder="Ketik nama kepala sekolah atau nama sekolah...">
+        </div>
+      </div>
+
+      <!-- Panel 2: Custom Guest Generator -->
+      <div class="dash-panel">
+        <h2 class="lead">2. Buat Link Tamu Tambahan (Di Luar 44 Nama)</h2>
+        <div class="field-group">
+          <label class="field-label" for="custom-guest-name">Nama Lengkap &amp; Gelar Tamu:</label>
+          <input type="text" id="custom-guest-name" class="field-input" placeholder="Contoh: Bpk. H. Ahmad Fauzi, M.Pd.">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="custom-guest-org">Instansi / Jabatan / Kota (Opsional):</label>
+          <input type="text" id="custom-guest-org" class="field-input" placeholder="Contoh: Keluarga Besar Tasikmalaya">
+        </div>
+        <div class="guest-btn-group">
+          <button type="button" id="copy-custom-link-btn" class="btn-primary">Salin Link Tamu Ini</button>
+          <button type="button" id="copy-custom-wa-btn" class="btn-outline">Salin Teks WhatsApp</button>
+          <a id="open-custom-link-btn" href="index.html" target="_blank" rel="noopener" class="btn-outline">Buka Preview</a>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Daftar 44 Kepala Sekolah">
+      <div id="guest-cards-container" class="guest-list-grid"></div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var GUESTS = [
+        { id: 1, school: 'SMPN 1 BANTARKALONG', rawName: 'Nono Darsono, S.Pd.,M.Si.', name: 'Nono Darsono, S.Pd., M.Si.' },
+        { id: 2, school: 'SMPN 2 BANTARKALONG', rawName: 'Drs. MAMAN, M.Pd.I', name: 'Drs. Maman, M.Pd.I.' },
+        { id: 3, school: 'SMPN SATAP 1 BANTARKALONG', rawName: 'HERMANTO', name: 'Hermanto' },
+        { id: 4, school: 'SMPN SATAP 2 BANTARKALONG', rawName: 'JEJEN ZAINUL HAKIM', name: 'Jejen Zainul Hakim' },
+        { id: 5, school: 'SMP ISLAM BINA INSAN MANDIRI', rawName: 'Agus Triana, S.H.I', name: 'Agus Triana, S.H.I.' },
+        { id: 6, school: 'SMP IT ASSALAM NURUL JAZA', rawName: 'M Slamet Budi, S.Pd.I', name: 'M. Slamet Budi, S.Pd.I.' },
+        { id: 7, school: 'SMP MAARIF NU ZAENAL MUTTAQIN', rawName: 'Luki Lukmanul Hakim, S.Pd.,M.Pd', name: 'Luki Lukmanul Hakim, S.Pd., M.Pd.' },
+        { id: 8, school: 'SMPN 1 BOJONGASIH', rawName: 'IRMAN, S.Pd', name: 'Irman, S.Pd.' },
+        { id: 9, school: 'SMPN SATAP 1 BOJONGASIH', rawName: 'Hj. SRI RAHMAWATI, S.S.', name: 'Hj. Sri Rahmawati, S.S.' },
+        { id: 10, school: 'SMPN SATAP 2 BOJONGASIH', rawName: 'NONENG RISMAWATI, S.Pd, M.Pd.', name: 'Noneng Rismawati, S.Pd., M.Pd.' },
+        { id: 11, school: 'SMP ISLAM MIFTAHUL HUDA BOJONGASIH', rawName: 'Deris Rismawan, S.Pd', name: 'Deris Rismawan, S.Pd.' },
+        { id: 12, school: 'SMP TERPADU MIFTAHUL HUDA BOJONGKONENG', rawName: 'HILMI ABDUL AZIZ, ST', name: 'Hilmi Abdul Aziz, S.T.' },
+        { id: 13, school: 'SMPN 1 CIPATUJAH', rawName: 'MARWAN SUPRIYADI, S.Pd,M.Pd', name: 'Marwan Supriyadi, S.Pd., M.Pd.' },
+        { id: 14, school: 'SMPN 2 CIPATUJAH', rawName: 'DUDUNG SUDARWAN, S.Pd. M.Si', name: 'Dudung Sudarwan, S.Pd., M.Si.' },
+        { id: 15, school: 'SMPN 3 CIPATUJAH', rawName: 'DADAN SUNDANA, S.Pd', name: 'Dadan Sundana, S.Pd.' },
+        { id: 16, school: 'SMPN 4 CIPATUJAH', rawName: 'Saprudin, S.Pd, M.Pd', name: 'Saprudin, S.Pd., M.Pd.' },
+        { id: 17, school: 'SMPN 5 CIPATUJAH', rawName: 'H. Adhika Nurkholis Aziz, S.Pd., M.Pd.', name: 'H. Adhika Nurkholis Aziz, S.Pd., M.Pd.' },
+        { id: 18, school: 'SMPN SATAP 1 CIPATUJAH', rawName: 'Ucu Herlina, S.Pd., M.Pd.', name: 'Ucu Herlina, S.Pd., M.Pd.' },
+        { id: 19, school: 'SMPN SATAP 2 CIPATUJAH', rawName: 'Dian Wardiana Resdedi, S.Sn.', name: 'Dian Wardiana Resdedi, S.Sn.' },
+        { id: 20, school: 'SMPN SATAP 3 CIPATUJAH', rawName: 'WINA WIDYA INDRAYANA, S.Pd.', name: 'Wina Widya Indrayana, S.Pd.' },
+        { id: 21, school: 'SMPN SATAP 4 CIPATUJAH', rawName: 'Iis Cucu Maryani, S.Pd.', name: 'Iis Cucu Maryani, S.Pd.' },
+        { id: 22, school: 'SMPN SATAP 5 CIPATUJAH', rawName: 'Yogi Fransisca, S.Pd.,M.Pd', name: 'Yogi Fransisca, S.Pd., M.Pd.' },
+        { id: 23, school: 'SMP ISLAM AL-FADLILLAH', rawName: 'TIKA KARTIKA, S.Pd.', name: 'Tika Kartika, S.Pd.' },
+        { id: 24, school: 'SMPN 1 CULAMEGA', rawName: 'KURNIA HERYANA, S.Pd', name: 'Kurnia Heryana, S.Pd.' },
+        { id: 25, school: 'SMPN SATAP 1 CULAMEGA', rawName: 'HERI BUDIWAN, S.Pd.', name: 'Heri Budiwan, S.Pd.' },
+        { id: 26, school: 'SMPN SATAP 2 CULAMEGA', rawName: 'BAHRUM, S.Ag., M.Pd.', name: 'Bahrum, S.Ag., M.Pd.' },
+        { id: 27, school: 'SMPN SATAP 3 CULAMEGA', rawName: 'KURNIA HERYANA, S.Pd', name: 'Kurnia Heryana, S.Pd.' },
+        { id: 28, school: 'SMPN SATAP 4 CULAMEGA', rawName: 'SOPU ALI MUBAROK, S.Pd', name: 'Sopu Ali Mubarok, S.Pd.' },
+        { id: 29, school: 'SMPN SATAP 5 CULAMEGA', rawName: 'HERLUS, S.Pd.', name: 'Herlus, S.Pd.' },
+        { id: 30, school: 'SMPN 1 KARANGNUNGGAL', rawName: 'ADE IWAN, S.Pd.I. M.Pd.I', name: 'Ade Iwan, S.Pd.I., M.Pd.I.' },
+        { id: 31, school: 'SMPN 2 KARANGNUNGGAL', rawName: 'Herna Purnama Direja, S.Pd., M.Pd.', name: 'Herna Purnama Direja, S.Pd., M.Pd.' },
+        { id: 32, school: 'SMPN 3 KARANGNUNGGAL', rawName: 'Arie Satria, S.Pd., M.Pd.', name: 'Arie Satria, S.Pd., M.Pd.' },
+        { id: 33, school: 'SMPN 4 KARANGNUNGGAL', rawName: 'Gati Durgathy, S.Pd', name: 'Gati Durgathy, S.Pd.' },
+        { id: 34, school: 'SMPN SATAP 1 KARANGNUNGGAL', rawName: 'Nikeu Nurulsani, S.Pd.,M.Pd', name: 'Nikeu Nurulsani, S.Pd., M.Pd.' },
+        { id: 35, school: 'SMPN SATAP 2 KARANGNUNGGAL', rawName: 'Fahmi Fauzie, S.Pd.', name: 'Fahmi Fauzie, S.Pd.' },
+        { id: 36, school: 'SMP ISLAM TRIJAYA KARANGNUNGGAL', rawName: 'Evi Mujiawati, S.Pd, M.Pd', name: 'Evi Mujiawati, S.Pd., M.Pd.' },
+        { id: 37, school: 'SMP PLUS AL AFSAR', rawName: 'Wawan Karnawan, S.S.,M.Pd', name: 'Wawan Karnawan, S.S., M.Pd.' },
+        { id: 38, school: 'SMP PLUS AL HIKMAH', rawName: 'Enung Taubah,S.Pd', name: 'Enung Taubah, S.Pd.' },
+        { id: 39, school: 'SMP IT DAARUSSALAAM', rawName: 'Sukmana S.Pd.I', name: 'Sukmana, S.Pd.I.' },
+        { id: 40, school: 'SMP IT MADINATUL ALBAAB', rawName: 'Fitroh Malik,SH', name: 'Fitroh Malik, S.H.' },
+        { id: 41, school: 'SMP TERPADU NURATA', rawName: 'Febrian Rizki R., S.Hum., M.Pd.', name: 'Febrian Rizki R., S.Hum., M.Pd.' },
+        { id: 42, school: 'SMP IT NURUL IHSAN', rawName: 'Ali Da\'i Al Mahdi, S.Kom', name: 'Ali Da\'i Al Mahdi, S.Kom.' },
+        { id: 43, school: 'SMP IT ARROHMAN', rawName: 'Yogi Iskandar, S.Pd', name: 'Yogi Iskandar, S.Pd.' },
+        { id: 44, school: 'SMP ISLAM BIHBUL', rawName: 'Enceng, S.Pd.I.', name: 'Enceng, S.Pd.I.' }
+      ];
+
+      var baseUrlInput = document.getElementById('base-url-input');
+      var searchInput = document.getElementById('search-guest-input');
+      var container = document.getElementById('guest-cards-container');
+
+      var defaultBase = window.location.href.split('?')[0].replace(/daftar-tamu\.html$/i, '');
+      if (!defaultBase.endsWith('/')) defaultBase += '/';
+      baseUrlInput.value = defaultBase;
+
+      function getCleanBase() {
+        var val = baseUrlInput.value.trim() || defaultBase;
+        return val.replace(/\/+$/, '');
+      }
+
+      function buildGuestUrl(guestName, school, isDuplicateId27) {
+        var base = getCleanBase();
+        var q = '?to=' + encodeURIComponent(guestName);
+        if (isDuplicateId27 && school) {
+          q += '&org=' + encodeURIComponent(school);
+        }
+        return base + '/' + q;
+      }
+
+      function buildWhatsAppText(guestName, school, linkUrl) {
+        var orgLine = school ? ('\nKepala ' + school) : '';
+        return (
+          'Kepada Yth.\n' +
+          '*Bapak/Ibu ' + guestName + '*' + orgLine + '\n\n' +
+          'Assalamu’alaikum Warahmatullahi Wabarakatuh.\n\n' +
+          'Dengan memohon rahmat dan ridho Allah SWT, tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu untuk menghadiri acara pernikahan putra-putri kami:\n\n' +
+          '*M. Fajar Ardi Alhari, S.Pd.*\n' +
+          '&\n' +
+          '*Salsabila Rahayu, S.Pd.*\n\n' +
+          'Yang InsyaAllah akan diselenggarakan pada:\n' +
+          'Hari/Tanggal : Sabtu, 07 November 2026\n' +
+          'Waktu : Pukul 09.00 WIB s.d. Selesai\n' +
+          'Tempat : Aula Universitas KH. Ruhiat, Cipasung, Singaparna, Tasikmalaya\n\n' +
+          'Tautan Undangan Digital Khusus Bapak/Ibu:\n' +
+          linkUrl + '\n\n' +
+          'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu berkenan hadir dan memberikan doa restu.\n\n' +
+          'Wassalamu’alaikum Warahmatullahi Wabarakatuh.\n\n' +
+          'Kami yang berbahagia,\n' +
+          '*Kel. Bpk. Arie Satria, S.Pd., M.Pd. & Ibu Windi Hastuti*\n' +
+          '*Kel. Bpk. Yayat Ruhiyat & Ibu Syarifatul Khoeriyah.*'
+        );
+      }
+
+      function copyText(str, btn, labelAfter) {
+        var orig = btn.textContent;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(str);
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = str;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+        btn.textContent = labelAfter;
+        setTimeout(function () {
+          btn.textContent = orig;
+        }, 2000);
+      }
+
+      function renderCards() {
+        var q = (searchInput.value || '').toLowerCase().trim();
+        container.innerHTML = '';
+
+        GUESTS.forEach(function (g) {
+          if (q && g.name.toLowerCase().indexOf(q) === -1 && g.school.toLowerCase().indexOf(q) === -1 && g.rawName.toLowerCase().indexOf(q) === -1) {
+            return;
+          }
+
+          var url = buildGuestUrl(g.name, g.school, g.id === 27);
+          var localHref = 'index.html?to=' + encodeURIComponent(g.name) + (g.id === 27 ? '&org=' + encodeURIComponent(g.school) : '');
+          var waText = buildWhatsAppText(g.name, g.school, url);
+          var waHref = 'https://wa.me/?text=' + encodeURIComponent(waText);
+
+          var card = document.createElement('article');
+          card.className = 'guest-item-card';
+
+          card.innerHTML =
+            '<div>' +
+              '<div class="guest-item-top">' +
+                '<span class="guest-no-badge">#' + g.id + ' · ' + g.school + '</span>' +
+              '</div>' +
+              '<h3 class="guest-title-name">' + g.name + '</h3>' +
+            '</div>' +
+            '<div class="guest-url-preview">' + url + '</div>' +
+            '<div class="guest-btn-group">' +
+              '<button type="button" class="btn-primary js-copy-link">Salin Link</button>' +
+              '<button type="button" class="btn-outline js-copy-wa">Salin Teks WA</button>' +
+              '<a href="' + waHref + '" target="_blank" rel="noopener" class="btn-outline">Kirim WA</a>' +
+              '<a href="' + localHref + '" target="_blank" rel="noopener" class="btn-outline">Buka Undangan</a>' +
+            '</div>';
+
+          card.querySelector('.js-copy-link').addEventListener('click', function (e) {
+            copyText(url, e.currentTarget, 'Link Tersalin!');
+          });
+          card.querySelector('.js-copy-wa').addEventListener('click', function (e) {
+            copyText(waText, e.currentTarget, 'Teks WA Tersalin!');
+          });
+
+          container.appendChild(card);
+        });
+      }
+
+      baseUrlInput.addEventListener('input', renderCards);
+      searchInput.addEventListener('input', renderCards);
+      renderCards();
+
+      // Custom Guest Generator
+      var customNameInput = document.getElementById('custom-guest-name');
+      var customOrgInput = document.getElementById('custom-guest-org');
+      var copyCustomLinkBtn = document.getElementById('copy-custom-link-btn');
+      var copyCustomWaBtn = document.getElementById('copy-custom-wa-btn');
+      var openCustomLinkBtn = document.getElementById('open-custom-link-btn');
+
+      function updateCustomPreview() {
+        var cName = customNameInput.value.trim() || 'Tamu Kehormatan';
+        var cOrg = customOrgInput.value.trim();
+        var q = '?to=' + encodeURIComponent(cName) + (cOrg ? '&org=' + encodeURIComponent(cOrg) : '');
+        openCustomLinkBtn.href = 'index.html' + q;
+      }
+
+      customNameInput.addEventListener('input', updateCustomPreview);
+      customOrgInput.addEventListener('input', updateCustomPreview);
+
+      copyCustomLinkBtn.addEventListener('click', function () {
+        var cName = customNameInput.value.trim() || 'Tamu Kehormatan';
+        var cOrg = customOrgInput.value.trim();
+        var base = getCleanBase();
+        var url = base + '/?to=' + encodeURIComponent(cName) + (cOrg ? '&org=' + encodeURIComponent(cOrg) : '');
+        copyText(url, copyCustomLinkBtn, 'Link Tersalin!');
+      });
+
+      copyCustomWaBtn.addEventListener('click', function () {
+        var cName = customNameInput.value.trim() || 'Tamu Kehormatan';
+        var cOrg = customOrgInput.value.trim();
+        var base = getCleanBase();
+        var url = base + '/?to=' + encodeURIComponent(cName) + (cOrg ? '&org=' + encodeURIComponent(cOrg) : '');
+        var waText = buildWhatsAppText(cName, cOrg, url);
+        copyText(waText, copyCustomWaBtn, 'Teks WA Tersalin!');
+      });
+    })();
+  </script>
+</body>
+</html>

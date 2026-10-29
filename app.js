@@ -21,6 +21,7 @@
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var scrollVelocity = 0;
+  var lenisInstance = null;
 
   /* ------------------------------------------------------------------
      1. LENIS SMOOTH SCROLL + GSAP SCROLLTRIGGER SYNC
@@ -39,6 +40,7 @@
         lerp: 0.11,
         smoothWheel: true
       });
+      lenisInstance = lenis;
 
       lenis.on('scroll', function (e) {
         scrollVelocity = e && typeof e.velocity === 'number' ? e.velocity : 0;
@@ -484,24 +486,227 @@
   }
 
   /* ------------------------------------------------------------------
-     7. PERSONALIZED GUEST NAME (?to=Nama+Tamu) & LIVE COUNTDOWN
+     7. PERSONALIZED 44 GUEST DIRECTORY (?to=Nama+Tamu), COVER GATE & COUNTDOWN
      ------------------------------------------------------------------ */
+  var GUEST_DIRECTORY = [
+    { id: 1, school: 'SMPN 1 BANTARKALONG', rawName: 'Nono Darsono, S.Pd.,M.Si.', name: 'Nono Darsono, S.Pd., M.Si.' },
+    { id: 2, school: 'SMPN 2 BANTARKALONG', rawName: 'Drs. MAMAN, M.Pd.I', name: 'Drs. Maman, M.Pd.I.' },
+    { id: 3, school: 'SMPN SATAP 1 BANTARKALONG', rawName: 'HERMANTO', name: 'Hermanto' },
+    { id: 4, school: 'SMPN SATAP 2 BANTARKALONG', rawName: 'JEJEN ZAINUL HAKIM', name: 'Jejen Zainul Hakim' },
+    { id: 5, school: 'SMP ISLAM BINA INSAN MANDIRI', rawName: 'Agus Triana, S.H.I', name: 'Agus Triana, S.H.I.' },
+    { id: 6, school: 'SMP IT ASSALAM NURUL JAZA', rawName: 'M Slamet Budi, S.Pd.I', name: 'M. Slamet Budi, S.Pd.I.' },
+    { id: 7, school: 'SMP MAARIF NU ZAENAL MUTTAQIN', rawName: 'Luki Lukmanul Hakim, S.Pd.,M.Pd', name: 'Luki Lukmanul Hakim, S.Pd., M.Pd.' },
+    { id: 8, school: 'SMPN 1 BOJONGASIH', rawName: 'IRMAN, S.Pd', name: 'Irman, S.Pd.' },
+    { id: 9, school: 'SMPN SATAP 1 BOJONGASIH', rawName: 'Hj. SRI RAHMAWATI, S.S.', name: 'Hj. Sri Rahmawati, S.S.' },
+    { id: 10, school: 'SMPN SATAP 2 BOJONGASIH', rawName: 'NONENG RISMAWATI, S.Pd, M.Pd.', name: 'Noneng Rismawati, S.Pd., M.Pd.' },
+    { id: 11, school: 'SMP ISLAM MIFTAHUL HUDA BOJONGASIH', rawName: 'Deris Rismawan, S.Pd', name: 'Deris Rismawan, S.Pd.' },
+    { id: 12, school: 'SMP TERPADU MIFTAHUL HUDA BOJONGKONENG', rawName: 'HILMI ABDUL AZIZ, ST', name: 'Hilmi Abdul Aziz, S.T.' },
+    { id: 13, school: 'SMPN 1 CIPATUJAH', rawName: 'MARWAN SUPRIYADI, S.Pd,M.Pd', name: 'Marwan Supriyadi, S.Pd., M.Pd.' },
+    { id: 14, school: 'SMPN 2 CIPATUJAH', rawName: 'DUDUNG SUDARWAN, S.Pd. M.Si', name: 'Dudung Sudarwan, S.Pd., M.Si.' },
+    { id: 15, school: 'SMPN 3 CIPATUJAH', rawName: 'DADAN SUNDANA, S.Pd', name: 'Dadan Sundana, S.Pd.' },
+    { id: 16, school: 'SMPN 4 CIPATUJAH', rawName: 'Saprudin, S.Pd, M.Pd', name: 'Saprudin, S.Pd., M.Pd.' },
+    { id: 17, school: 'SMPN 5 CIPATUJAH', rawName: 'H. Adhika Nurkholis Aziz, S.Pd., M.Pd.', name: 'H. Adhika Nurkholis Aziz, S.Pd., M.Pd.' },
+    { id: 18, school: 'SMPN SATAP 1 CIPATUJAH', rawName: 'Ucu Herlina, S.Pd., M.Pd.', name: 'Ucu Herlina, S.Pd., M.Pd.' },
+    { id: 19, school: 'SMPN SATAP 2 CIPATUJAH', rawName: 'Dian Wardiana Resdedi, S.Sn.', name: 'Dian Wardiana Resdedi, S.Sn.' },
+    { id: 20, school: 'SMPN SATAP 3 CIPATUJAH', rawName: 'WINA WIDYA INDRAYANA, S.Pd.', name: 'Wina Widya Indrayana, S.Pd.' },
+    { id: 21, school: 'SMPN SATAP 4 CIPATUJAH', rawName: 'Iis Cucu Maryani, S.Pd.', name: 'Iis Cucu Maryani, S.Pd.' },
+    { id: 22, school: 'SMPN SATAP 5 CIPATUJAH', rawName: 'Yogi Fransisca, S.Pd.,M.Pd', name: 'Yogi Fransisca, S.Pd., M.Pd.' },
+    { id: 23, school: 'SMP ISLAM AL-FADLILLAH', rawName: 'TIKA KARTIKA, S.Pd.', name: 'Tika Kartika, S.Pd.' },
+    { id: 24, school: 'SMPN 1 CULAMEGA', rawName: 'KURNIA HERYANA, S.Pd', name: 'Kurnia Heryana, S.Pd.' },
+    { id: 25, school: 'SMPN SATAP 1 CULAMEGA', rawName: 'HERI BUDIWAN, S.Pd.', name: 'Heri Budiwan, S.Pd.' },
+    { id: 26, school: 'SMPN SATAP 2 CULAMEGA', rawName: 'BAHRUM, S.Ag., M.Pd.', name: 'Bahrum, S.Ag., M.Pd.' },
+    { id: 27, school: 'SMPN SATAP 3 CULAMEGA', rawName: 'KURNIA HERYANA, S.Pd', name: 'Kurnia Heryana, S.Pd.' },
+    { id: 28, school: 'SMPN SATAP 4 CULAMEGA', rawName: 'SOPU ALI MUBAROK, S.Pd', name: 'Sopu Ali Mubarok, S.Pd.' },
+    { id: 29, school: 'SMPN SATAP 5 CULAMEGA', rawName: 'HERLUS, S.Pd.', name: 'Herlus, S.Pd.' },
+    { id: 30, school: 'SMPN 1 KARANGNUNGGAL', rawName: 'ADE IWAN, S.Pd.I. M.Pd.I', name: 'Ade Iwan, S.Pd.I., M.Pd.I.' },
+    { id: 31, school: 'SMPN 2 KARANGNUNGGAL', rawName: 'Herna Purnama Direja, S.Pd., M.Pd.', name: 'Herna Purnama Direja, S.Pd., M.Pd.' },
+    { id: 32, school: 'SMPN 3 KARANGNUNGGAL', rawName: 'Arie Satria, S.Pd., M.Pd.', name: 'Arie Satria, S.Pd., M.Pd.' },
+    { id: 33, school: 'SMPN 4 KARANGNUNGGAL', rawName: 'Gati Durgathy, S.Pd', name: 'Gati Durgathy, S.Pd.' },
+    { id: 34, school: 'SMPN SATAP 1 KARANGNUNGGAL', rawName: 'Nikeu Nurulsani, S.Pd.,M.Pd', name: 'Nikeu Nurulsani, S.Pd., M.Pd.' },
+    { id: 35, school: 'SMPN SATAP 2 KARANGNUNGGAL', rawName: 'Fahmi Fauzie, S.Pd.', name: 'Fahmi Fauzie, S.Pd.' },
+    { id: 36, school: 'SMP ISLAM TRIJAYA KARANGNUNGGAL', rawName: 'Evi Mujiawati, S.Pd, M.Pd', name: 'Evi Mujiawati, S.Pd., M.Pd.' },
+    { id: 37, school: 'SMP PLUS AL AFSAR', rawName: 'Wawan Karnawan, S.S.,M.Pd', name: 'Wawan Karnawan, S.S., M.Pd.' },
+    { id: 38, school: 'SMP PLUS AL HIKMAH', rawName: 'Enung Taubah,S.Pd', name: 'Enung Taubah, S.Pd.' },
+    { id: 39, school: 'SMP IT DAARUSSALAAM', rawName: 'Sukmana S.Pd.I', name: 'Sukmana, S.Pd.I.' },
+    { id: 40, school: 'SMP IT MADINATUL ALBAAB', rawName: 'Fitroh Malik,SH', name: 'Fitroh Malik, S.H.' },
+    { id: 41, school: 'SMP TERPADU NURATA', rawName: 'Febrian Rizki R., S.Hum., M.Pd.', name: 'Febrian Rizki R., S.Hum., M.Pd.' },
+    { id: 42, school: 'SMP IT NURUL IHSAN', rawName: 'Ali Da\'i Al Mahdi, S.Kom', name: 'Ali Da\'i Al Mahdi, S.Kom.' },
+    { id: 43, school: 'SMP IT ARROHMAN', rawName: 'Yogi Iskandar, S.Pd', name: 'Yogi Iskandar, S.Pd.' },
+    { id: 44, school: 'SMP ISLAM BIHBUL', rawName: 'Enceng, S.Pd.I.', name: 'Enceng, S.Pd.I.' }
+  ];
+
+  function normalizeGuestKey(str) {
+    if (!str) return '';
+    return String(str).toLowerCase().replace(/[^a-z0-9]/g, '');
+  }
+
+  function resolveGuestFromParams(params) {
+    var rawGuest = params.get('to') || params.get('guest') || params.get('tamu') || '';
+    var rawOrg = params.get('org') || params.get('instansi') || params.get('sekolah') || '';
+    var rawId = parseInt(params.get('id') || params.get('no') || '0', 10);
+
+    if (rawId >= 1 && rawId <= GUEST_DIRECTORY.length) {
+      var byId = GUEST_DIRECTORY[rawId - 1];
+      return {
+        name: byId.name,
+        org: 'Kepala Sekolah · ' + byId.school,
+        school: byId.school
+      };
+    }
+
+    var cleanGuest = rawGuest.trim().replace(/\+/g, ' ');
+    var cleanOrg = rawOrg.trim().replace(/\+/g, ' ');
+    if (!cleanGuest) return null;
+
+    var guestNorm = normalizeGuestKey(cleanGuest);
+    var orgNorm = normalizeGuestKey(cleanOrg);
+
+    for (var i = 0; i < GUEST_DIRECTORY.length; i++) {
+      var item = GUEST_DIRECTORY[i];
+      var matchName = normalizeGuestKey(item.rawName) === guestNorm || normalizeGuestKey(item.name) === guestNorm;
+      if (matchName) {
+        if (orgNorm && normalizeGuestKey(item.school) !== orgNorm) {
+          continue;
+        }
+        return {
+          name: item.name,
+          org: 'Kepala Sekolah · ' + item.school,
+          school: item.school
+        };
+      }
+    }
+
+    // Check if guest string includes school in parentheses e.g. "Kurnia Heryana, S.Pd. (SMPN SATAP 3 CULAMEGA)"
+    for (var j = 0; j < GUEST_DIRECTORY.length; j++) {
+      var rec = GUEST_DIRECTORY[j];
+      var combinedRaw = normalizeGuestKey(rec.rawName + rec.school);
+      var combinedClean = normalizeGuestKey(rec.name + rec.school);
+      if (guestNorm === combinedRaw || guestNorm === combinedClean) {
+        return {
+          name: rec.name,
+          org: 'Kepala Sekolah · ' + rec.school,
+          school: rec.school
+        };
+      }
+    }
+
+    return {
+      name: cleanGuest,
+      org: cleanOrg ? cleanOrg : 'Tamu Kehormatan · Tasikmalaya',
+      school: cleanOrg
+    };
+  }
+
+  function initCoverGate() {
+    var coverGate = document.getElementById('cover-gate');
+    var openBtn = document.getElementById('open-invitation-btn');
+    if (!coverGate || !openBtn) return;
+
+    var isCoverOpen = false;
+
+    if (lenisInstance && typeof lenisInstance.stop === 'function') {
+      lenisInstance.stop();
+    }
+
+    function preventCoverScroll(e) {
+      if (isCoverOpen) return;
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+    }
+
+    function preventCoverKeys(e) {
+      if (isCoverOpen) return;
+      var scrollKeys = [' ', 'PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', 'End', 'Home'];
+      if (scrollKeys.indexOf(e.key) !== -1) {
+        e.preventDefault();
+      }
+    }
+
+    window.addEventListener('wheel', preventCoverScroll, { passive: false });
+    window.addEventListener('touchmove', preventCoverScroll, { passive: false });
+    window.addEventListener('keydown', preventCoverKeys, { passive: false });
+
+    function unlockInvitation() {
+      if (isCoverOpen) return;
+      isCoverOpen = true;
+
+      window.removeEventListener('wheel', preventCoverScroll, { passive: false });
+      window.removeEventListener('touchmove', preventCoverScroll, { passive: false });
+      window.removeEventListener('keydown', preventCoverKeys, { passive: false });
+
+      if (lenisInstance && typeof lenisInstance.start === 'function') {
+        lenisInstance.start();
+      }
+
+      ensureAudioContext();
+      if (bgAudio) {
+        userManuallyPaused = false;
+        hasAutoStarted = true;
+        bgAudio.muted = false;
+        if (bgAudio.paused) {
+          bgAudio.volume = 0.10;
+          var p = bgAudio.play();
+          if (p !== undefined) {
+            p.then(function () {
+              fadeInAudio(1000);
+            }).catch(function () {});
+          }
+        } else {
+          fadeInAudio(1000);
+        }
+      }
+      playTactileClick(329.63);
+
+      coverGate.classList.add('is-opening');
+
+      setTimeout(function () {
+        coverGate.hidden = true;
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        if (typeof window.ScrollTrigger !== 'undefined') {
+          window.ScrollTrigger.refresh();
+        }
+        checkElementsInView();
+      }, 820);
+    }
+
+    openBtn.addEventListener('click', unlockInvitation);
+  }
+
   function initGuestAndCountdown() {
     var params = new URLSearchParams(window.location.search);
-    var rawGuest = params.get('to') || params.get('guest') || params.get('tamu');
+    var resolved = resolveGuestFromParams(params);
+
+    var coverNameEl = document.getElementById('cover-guest-name');
+    var coverOrgEl = document.getElementById('cover-guest-org');
     var guestDisplay = document.getElementById('guest-name-display');
+    var guestOrgDisplay = document.getElementById('guest-org-display');
     var rsvpNameInput = document.getElementById('rsvp-name');
 
-    if (rawGuest && rawGuest.trim().length > 0) {
-      var cleanName = rawGuest.trim().replace(/\+/g, ' ');
-      if (guestDisplay) guestDisplay.textContent = cleanName;
-      if (rsvpNameInput) rsvpNameInput.value = cleanName;
+    if (resolved) {
+      if (coverNameEl) coverNameEl.textContent = resolved.name;
+      if (coverOrgEl) coverOrgEl.textContent = resolved.org;
+      if (guestDisplay) guestDisplay.textContent = resolved.name;
+      if (guestOrgDisplay) {
+        guestOrgDisplay.textContent = resolved.school
+          ? (resolved.org + ' · Sabtu, 07 November 2026')
+          : 'Sabtu, 07 November 2026 · Aula Universitas KH. Ruhiat, Tasikmalaya';
+      }
+      if (rsvpNameInput) {
+        rsvpNameInput.value = resolved.school
+          ? (resolved.name + ' (' + resolved.school + ')')
+          : resolved.name;
+      }
     }
 
     if (rsvpNameInput && guestDisplay) {
       rsvpNameInput.addEventListener('input', function () {
         var val = rsvpNameInput.value.trim();
-        guestDisplay.textContent = val.length > 0 ? val : 'Sahabat & Keluarga Terkasih';
+        var fallback = resolved ? resolved.name : 'Sahabat & Keluarga Terkasih';
+        guestDisplay.textContent = val.length > 0 ? val : fallback;
+        if (coverNameEl) {
+          coverNameEl.textContent = val.length > 0 ? val : fallback;
+        }
       });
     }
 
@@ -534,11 +739,10 @@
   }
 
   /* ------------------------------------------------------------------
-     8. WEB AUDIO API WARM ACOUSTIC GUITAR & TACTILE FEEDBACK
+     8. BACKGROUND AUDIO (FIX YOU - CUT) & TACTILE CLICKS
      ------------------------------------------------------------------ */
   var audioCtx = null;
   var soundEnabled = false;
-  var droneTimer = null;
 
   function ensureAudioContext() {
     if (!audioCtx) {
@@ -574,58 +778,185 @@
     }
   }
 
-  function playWarmAcousticStrum() {
-    if (!soundEnabled || !audioCtx) return;
-    try {
-      var notes = [82.41, 123.47, 196.00, 246.94, 369.99];
-      var now = audioCtx.currentTime;
+  var bgAudio = null;
+  var fadeTimer = null;
+  var targetVolume = 0.75;
+  var hasAutoStarted = false;
+  var isPlayPending = false;
+  var userManuallyPaused = false;
+  var activationPollTimer = null;
 
-      notes.forEach(function (freq, index) {
-        var osc = audioCtx.createOscillator();
-        var filter = audioCtx.createBiquadFilter();
-        var gain = audioCtx.createGain();
-
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, now + index * 0.085);
-
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(860, now + index * 0.085);
-
-        gain.gain.setValueAtTime(0.0001, now + index * 0.085);
-        gain.gain.linearRampToValueAtTime(0.032, now + index * 0.085 + 0.04);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.085 + 3.4);
-
-        osc.connect(filter);
-        filter.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start(now + index * 0.085);
-        osc.stop(now + index * 0.085 + 3.5);
-      });
-    } catch (e) {
-      // Ignore if blocked
+  function fadeInAudio(durationMs) {
+    if (!bgAudio) return;
+    if (fadeTimer) {
+      clearInterval(fadeTimer);
+      fadeTimer = null;
     }
+    var totalMs = durationMs || 1000;
+    var startVol = 0.10;
+    bgAudio.volume = startVol;
+    var startTime = Date.now();
+
+    fadeTimer = setInterval(function () {
+      if (!bgAudio || bgAudio.paused) {
+        clearInterval(fadeTimer);
+        fadeTimer = null;
+        return;
+      }
+      var elapsed = Date.now() - startTime;
+      var progress = Math.min(1, elapsed / totalMs);
+      var newVol = startVol + (targetVolume - startVol) * progress;
+      bgAudio.volume = Number(Math.min(targetVolume, Math.max(0, newVol)).toFixed(3));
+
+      if (progress >= 1) {
+        clearInterval(fadeTimer);
+        fadeTimer = null;
+      }
+    }, 50);
   }
 
   function initSoundToggle() {
     var toggleBtn = document.getElementById('sound-toggle');
     var labelEl = document.getElementById('sound-label');
-    if (!toggleBtn || !labelEl) return;
+    bgAudio = document.getElementById('bg-music');
+    if (!toggleBtn || !labelEl || !bgAudio) return;
 
-    toggleBtn.addEventListener('click', function () {
+    if (!bgAudio.src || bgAudio.src === '') {
+      bgAudio.src = 'assets/fix-you-cut.mp3';
+    }
+    bgAudio.preload = 'auto';
+
+    function setPlayingState(playing) {
+      soundEnabled = playing;
+      toggleBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+      labelEl.textContent = playing ? 'Jeda Musik' : 'Putar Musik';
+    }
+
+    var unlockEvents = [
+      'pointerdown',
+      'mousedown',
+      'touchstart',
+      'touchend',
+      'click',
+      'keydown',
+      'scroll',
+      'wheel'
+    ];
+
+    function removeUnlockListeners() {
+      unlockEvents.forEach(function (evt) {
+        window.removeEventListener(evt, onUnlockGesture, true);
+        document.removeEventListener(evt, onUnlockGesture, true);
+      });
+      if (activationPollTimer) {
+        clearInterval(activationPollTimer);
+        activationPollTimer = null;
+      }
+    }
+
+    function attemptAutoPlay() {
+      if (hasAutoStarted || isPlayPending || userManuallyPaused || !bgAudio) return;
+
+      if (!bgAudio.paused) {
+        hasAutoStarted = true;
+        ensureAudioContext();
+        removeUnlockListeners();
+        setPlayingState(true);
+        fadeInAudio(1000);
+        return;
+      }
+
+      isPlayPending = true;
+      bgAudio.muted = false;
+      bgAudio.volume = 0.10;
+
+      var playPromise = bgAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(function () {
+          isPlayPending = false;
+          hasAutoStarted = true;
+          ensureAudioContext();
+          removeUnlockListeners();
+          setPlayingState(true);
+          fadeInAudio(1000);
+        }).catch(function () {
+          isPlayPending = false;
+        });
+      } else {
+        isPlayPending = false;
+      }
+    }
+
+    function onUnlockGesture(e) {
+      if (hasAutoStarted || userManuallyPaused) {
+        removeUnlockListeners();
+        return;
+      }
+      if (e && e.target && e.target.closest && e.target.closest('#sound-toggle')) {
+        return;
+      }
+      attemptAutoPlay();
+    }
+
+    unlockEvents.forEach(function (evt) {
+      window.addEventListener(evt, onUnlockGesture, { capture: true, passive: true });
+      document.addEventListener(evt, onUnlockGesture, { capture: true, passive: true });
+    });
+
+    activationPollTimer = setInterval(function () {
+      if (hasAutoStarted || userManuallyPaused) {
+        removeUnlockListeners();
+        return;
+      }
+      if (navigator.userActivation && (navigator.userActivation.isActive || navigator.userActivation.hasBeenActive)) {
+        attemptAutoPlay();
+      }
+    }, 150);
+
+    toggleBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
       ensureAudioContext();
-      soundEnabled = !soundEnabled;
-      toggleBtn.setAttribute('aria-pressed', soundEnabled ? 'true' : 'false');
-      labelEl.textContent = soundEnabled ? 'Suara Aktif' : 'Putar Musik';
+      removeUnlockListeners();
 
-      if (soundEnabled) {
-        playWarmAcousticStrum();
-        droneTimer = setInterval(function () {
-          if (soundEnabled) playWarmAcousticStrum();
-        }, 7500);
-      } else if (droneTimer) {
-        clearInterval(droneTimer);
-        droneTimer = null;
+      if (bgAudio.paused) {
+        userManuallyPaused = false;
+        hasAutoStarted = true;
+        bgAudio.muted = false;
+        var promise = bgAudio.play();
+        if (promise !== undefined) {
+          promise.then(function () {
+            setPlayingState(true);
+            fadeInAudio(1000);
+          }).catch(function () {});
+        }
+      } else {
+        userManuallyPaused = true;
+        if (fadeTimer) {
+          clearInterval(fadeTimer);
+          fadeTimer = null;
+        }
+        bgAudio.pause();
+        setPlayingState(false);
+      }
+    });
+
+    bgAudio.addEventListener('play', function () {
+      setPlayingState(true);
+    });
+    bgAudio.addEventListener('pause', function () {
+      setPlayingState(false);
+    });
+    bgAudio.addEventListener('ended', function () {
+      setPlayingState(false);
+    });
+
+    attemptAutoPlay();
+    bgAudio.addEventListener('canplay', attemptAutoPlay, { once: true });
+    bgAudio.addEventListener('loadeddata', attemptAutoPlay, { once: true });
+    window.addEventListener('load', attemptAutoPlay, { once: true });
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible' && !hasAutoStarted && !userManuallyPaused) {
+        attemptAutoPlay();
       }
     });
   }
@@ -679,195 +1010,23 @@
     });
   }
 
-  function generateDeterministicQRMatrix(seedText, size) {
-    var matrix = [];
-    var r;
-    var c;
-    for (r = 0; r < size; r++) {
-      matrix[r] = [];
-      for (c = 0; c < size; c++) {
-        matrix[r][c] = 0;
-      }
-    }
-
-    function placeFinderPattern(rowOffset, colOffset) {
-      for (var dr = -1; dr <= 7; dr++) {
-        for (var dc = -1; dc <= 7; dc++) {
-          var rr = rowOffset + dr;
-          var cc = colOffset + dc;
-          if (rr < 0 || rr >= size || cc < 0 || cc >= size) continue;
-          if (dr === -1 || dr === 7 || dc === -1 || dc === 7) {
-            matrix[rr][cc] = 2;
-          } else if (dr === 0 || dr === 6 || dc === 0 || dc === 6) {
-            matrix[rr][cc] = 1;
-          } else if (dr >= 2 && dr <= 4 && dc >= 2 && dc <= 4) {
-            matrix[rr][cc] = 1;
-          } else {
-            matrix[rr][cc] = 2;
-          }
-        }
-      }
-    }
-
-    placeFinderPattern(0, 0);
-    placeFinderPattern(0, size - 7);
-    placeFinderPattern(size - 7, 0);
-
-    var alignR = size - 9;
-    var alignC = size - 9;
-    for (r = alignR - 2; r <= alignR + 2; r++) {
-      for (c = alignC - 2; c <= alignC + 2; c++) {
-        if (Math.abs(r - alignR) === 2 || Math.abs(c - alignC) === 2 || (r === alignR && c === alignC)) {
-          matrix[r][c] = 1;
-        } else {
-          matrix[r][c] = 2;
-        }
-      }
-    }
-
-    for (var i = 8; i < size - 8; i++) {
-      matrix[6][i] = i % 2 === 0 ? 1 : 2;
-      matrix[i][6] = i % 2 === 0 ? 1 : 2;
-    }
-
-    var center = Math.floor(size / 2);
-    for (r = center - 3; r <= center + 3; r++) {
-      for (c = center - 3; c <= center + 3; c++) {
-        matrix[r][c] = 2;
-      }
-    }
-
-    var hash = 2166136261;
-    for (var k = 0; k < seedText.length; k++) {
-      hash ^= seedText.charCodeAt(k);
-      hash = Math.imul(hash, 16777619);
-    }
-
-    for (r = 0; r < size; r++) {
-      for (c = 0; c < size; c++) {
-        if (matrix[r][c] !== 0) continue;
-        hash ^= (r * 31 + c * 17) & 0xff;
-        hash = Math.imul(hash, 16777619);
-        var bit = (Math.abs(hash) % 10) < 5 ? 1 : 0;
-        matrix[r][c] = bit;
-      }
-    }
-
-    return matrix;
-  }
-
-  function renderQRCanvas(canvas) {
-    if (!canvas || !canvas.getContext) return;
-    var ctx = canvas.getContext('2d');
-    var width = canvas.width;
-    var height = canvas.height;
-    var gridSize = 29;
-    var matrix = generateDeterministicQRMatrix(
-      '00020101021126610014ID.CO.QRIS.WWW0215ID20261107981140303UME5204581253033605802ID5915FAJAR DAN SALSA6011TASIKMALAYA6304A9F2',
-      gridSize
-    );
-
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, width, height);
-
-    var margin = Math.floor(width * 0.075);
-    var usable = width - margin * 2;
-    var cell = usable / gridSize;
-
-    ctx.fillStyle = '#11100e';
-    for (var r = 0; r < gridSize; r++) {
-      for (var c = 0; c < gridSize; c++) {
-        if (matrix[r][c] === 1) {
-          var x = Math.floor(margin + c * cell);
-          var y = Math.floor(margin + r * cell);
-          var w = Math.ceil(cell);
-          var h = Math.ceil(cell);
-          ctx.fillRect(x, y, w, h);
-        }
-      }
-    }
-
-    ctx.fillStyle = '#c86820';
-    var finderOrigins = [
-      [2, 2],
-      [2, gridSize - 5],
-      [gridSize - 5, 2]
-    ];
-    finderOrigins.forEach(function (pos) {
-      var fx = Math.floor(margin + pos[1] * cell);
-      var fy = Math.floor(margin + pos[0] * cell);
-      var fw = Math.ceil(cell * 3);
-      ctx.fillRect(fx, fy, fw, fw);
-    });
-
-    var cx = width / 2;
-    var cy = height / 2;
-    var badgeSize = cell * 5.2;
-    ctx.fillStyle = '#11100e';
-    ctx.fillRect(cx - badgeSize / 2, cy - badgeSize / 2, badgeSize, badgeSize);
-
-    ctx.fillStyle = '#eae9e6';
-    ctx.font = '700 ' + Math.round(cell * 2.15) + 'px Boska, Georgia, serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('F&S', cx, cy + 1);
-  }
-
   function initQRISFeatures() {
-    var mainCanvas = document.getElementById('qris-canvas');
-    var modalCanvas = document.getElementById('qris-canvas-modal');
-    renderQRCanvas(mainCanvas);
-    renderQRCanvas(modalCanvas);
-
     var downloadBtn = document.getElementById('download-qris-btn');
-    if (downloadBtn && mainCanvas) {
+    var zoomBtn = document.getElementById('zoom-qris-btn');
+    var modal = document.getElementById('qris-modal');
+    var closeBtn = document.getElementById('close-qris-modal');
+
+    if (downloadBtn) {
       downloadBtn.addEventListener('click', function () {
         playTactileClick(329.63);
-        var exportCanvas = document.createElement('canvas');
-        exportCanvas.width = 900;
-        exportCanvas.height = 1160;
-        var ectx = exportCanvas.getContext('2d');
-
-        ectx.fillStyle = '#e6e4e0';
-        ectx.fillRect(0, 0, 900, 1160);
-
-        ectx.fillStyle = '#11100e';
-        ectx.fillRect(0, 0, 900, 130);
-
-        ectx.fillStyle = '#eae9e6';
-        ectx.font = '700 28px Boska, Georgia, serif';
-        ectx.fillText('QRIS TANDA KASIH . PERNIKAHAN FAJAR & SALSA', 56, 78);
-
-        ectx.fillStyle = '#ffffff';
-        ectx.fillRect(130, 180, 640, 640);
-        ectx.drawImage(mainCanvas, 150, 200, 600, 600);
-
-        ectx.fillStyle = '#11100e';
-        ectx.font = '700 32px Boska, Georgia, serif';
-        ectx.fillText('M. FAJAR ARDI ALHARI & SALSABILA RAHAYU', 56, 900);
-
-        ectx.fillStyle = '#4e483f';
-        ectx.font = '500 22px Boska, Georgia, serif';
-        ectx.fillText('Sabtu, 07 November 2026 . Aula Univ. KH. Ruhiat, Tasikmalaya', 56, 950);
-        ectx.fillText('Mendukung BCA, Mandiri, BRI, BNI, GoPay, OVO, DANA, ShopeePay', 56, 995);
-
-        ectx.fillStyle = '#c86820';
-        ectx.font = '700 22px Boska, Georgia, serif';
-        ectx.fillText('TERIMA KASIH ATAS DOA RESTU & TANDA KASIH ANDA', 56, 1075);
-
-        var dataUrl = exportCanvas.toDataURL('image/png');
         var link = document.createElement('a');
+        link.href = 'assets/qr-arie.png';
         link.download = 'QRIS-Pernikahan-Fajar-Salsa.png';
-        link.href = dataUrl;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
       });
     }
-
-    var zoomBtn = document.getElementById('zoom-qris-btn');
-    var modal = document.getElementById('qris-modal');
-    var closeBtn = document.getElementById('close-qris-modal');
 
     function openModal() {
       if (!modal) return;
@@ -879,6 +1038,7 @@
 
     function closeModal() {
       if (!modal) return;
+      playTactileClick(220);
       modal.hidden = true;
       document.body.style.overflow = '';
       if (zoomBtn) zoomBtn.focus();
@@ -886,11 +1046,13 @@
 
     if (zoomBtn) zoomBtn.addEventListener('click', openModal);
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
     if (modal) {
       modal.addEventListener('click', function (e) {
         if (e.target === modal) closeModal();
       });
     }
+
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && modal && !modal.hidden) {
         closeModal();
@@ -899,9 +1061,14 @@
   }
 
   /* ------------------------------------------------------------------
-     10. CLIENT-SIDE CRUD FOR RSVP & DOA RESTU (localStorage + Live DOM)
+     10. RSVP & DOA RESTU CRUD + GOOGLE SHEETS PUBLIC SYNC (NO LOGIN)
      ------------------------------------------------------------------ */
   var STORAGE_KEY = 'fajar_salsa_rsvp_crud_v1';
+  var OWN_IDS_KEY = 'fajar_salsa_own_wish_ids_v1';
+
+  // Opsi A (Google Sheets Web App URL): Tempel URL Web App Google Apps Script Anda di bawah ini
+  // agar semua ucapan & kehadiran tersimpan di Google Spreadsheet dan tampil publik untuk semua tamu tanpa login.
+  var GOOGLE_SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbwySsbqbeNGduU0UqdPN1HeiV-8vUnhlH2Sh5kUSLUiisjvcfQRDDVhbDkqqbGKy0Nhmw/exec';
 
   var defaultWishes = [
     {
@@ -924,11 +1091,35 @@
       id: 'default-3',
       name: 'Aldi Firmansyah · Bandung',
       status: 'Kirim Doa & Tanda Kasih',
-      guests: '1 Orang',
+      guests: '-',
       message: 'Mohon maaf belum bisa hadir langsung ke Tasikmalaya karena tugas luar kota. Doa terbaik untuk Fajar dan Salsa, tanda kasih sudah dititipkan melalui QRIS di bawah.',
       editable: false
     }
   ];
+
+  function getOwnWishIds() {
+    try {
+      var raw = window.localStorage.getItem(OWN_IDS_KEY);
+      if (!raw) return {};
+      return JSON.parse(raw) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function markOwnWishId(id, isOwn) {
+    try {
+      var map = getOwnWishIds();
+      if (isOwn) {
+        map[id] = true;
+      } else {
+        delete map[id];
+      }
+      window.localStorage.setItem(OWN_IDS_KEY, JSON.stringify(map));
+    } catch (e) {
+      // Ignore storage errors
+    }
+  }
 
   function loadWishesFromStorage() {
     try {
@@ -952,12 +1143,79 @@
     }
   }
 
+  function isAttendingStatus(statusStr) {
+    if (!statusStr) return false;
+    var lower = statusStr.toLowerCase();
+    return lower.indexOf('hadir') !== -1 && lower.indexOf('tidak') === -1 && lower.indexOf('berhalangan') === -1;
+  }
+
+  function formatWishBadge(w) {
+    if (isAttendingStatus(w.status)) {
+      var pax = w.guests && w.guests !== '-' ? w.guests : '2 Orang';
+      return 'Hadir · ' + pax;
+    }
+    return 'Kirim Doa & Tanda Kasih';
+  }
+
+  function syncWishToGoogleSheets(action, wishObj) {
+    if (!GOOGLE_SHEETS_API_URL || GOOGLE_SHEETS_API_URL.trim() === '') {
+      return Promise.resolve(false);
+    }
+    var payload = {
+      action: action,
+      id: wishObj.id,
+      name: wishObj.name,
+      status: wishObj.status,
+      guests: wishObj.guests || '-',
+      message: wishObj.message,
+      timestamp: new Date().toISOString()
+    };
+    return fetch(GOOGLE_SHEETS_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(function () {
+      return true;
+    }).catch(function () {
+      return false;
+    });
+  }
+
+  function fetchWishesFromGoogleSheets() {
+    if (!GOOGLE_SHEETS_API_URL || GOOGLE_SHEETS_API_URL.trim() === '') {
+      return Promise.resolve(null);
+    }
+    return fetch(GOOGLE_SHEETS_API_URL + '?t=' + String(Date.now()), {
+      method: 'GET'
+    }).then(function (res) {
+      return res.json();
+    }).then(function (data) {
+      var rows = Array.isArray(data) ? data : (data && Array.isArray(data.data) ? data.data : null);
+      if (!rows) return null;
+      var ownIds = getOwnWishIds();
+      return rows.map(function (r) {
+        var rId = String(r.id || ('sheet-' + Math.random()));
+        return {
+          id: rId,
+          name: String(r.name || 'Sahabat Fajar & Salsa'),
+          status: String(r.status || 'Hadir di Aula Univ. KH. Ruhiat'),
+          guests: String(r.guests || '2 Orang'),
+          message: String(r.message || ''),
+          editable: Boolean(ownIds[rId] || r.editable)
+        };
+      });
+    }).catch(function () {
+      return null;
+    });
+  }
+
   function initRSVPFormAndCRUD() {
     var form = document.getElementById('rsvp-form');
     var editIdInput = document.getElementById('rsvp-edit-id');
     var nameInput = document.getElementById('rsvp-name');
     var statusSelect = document.getElementById('rsvp-status');
     var guestsSelect = document.getElementById('rsvp-guests');
+    var guestsGroup = document.getElementById('rsvp-guests-group');
     var messageInput = document.getElementById('rsvp-message');
     var submitBtn = document.getElementById('rsvp-submit-btn');
     var cancelEditBtn = document.getElementById('rsvp-cancel-edit');
@@ -968,15 +1226,34 @@
 
     var wishes = loadWishesFromStorage();
 
+    function updateGuestsFieldVisibility() {
+      if (!statusSelect || !guestsSelect) return;
+      var attending = isAttendingStatus(statusSelect.value);
+      if (guestsGroup) {
+        guestsGroup.style.opacity = attending ? '1' : '0.55';
+      }
+      guestsSelect.disabled = !attending;
+    }
+
+    if (statusSelect) {
+      statusSelect.addEventListener('change', updateGuestsFieldVisibility);
+      updateGuestsFieldVisibility();
+    }
+
     function renderWishes() {
       feed.innerHTML = '';
+      var attendingCount = 0;
+      wishes.forEach(function (w) {
+        if (isAttendingStatus(w.status)) attendingCount++;
+      });
+
       if (countBadge) {
-        countBadge.textContent = String(wishes.length) + ' Ucapan Masuk';
+        countBadge.textContent = String(wishes.length) + ' Ucapan · ' + String(attendingCount) + ' Hadir';
       }
 
       wishes.forEach(function (w, idx) {
         var item = document.createElement('article');
-        item.className = 'wish-item';
+        item.className = 'wish-item is-inview';
         item.setAttribute('data-wish-id', w.id);
         item.setAttribute('data-reveal', '');
         item.setAttribute('data-anim', 'fade-up');
@@ -991,7 +1268,7 @@
 
         var badge = document.createElement('span');
         badge.className = 'wish-badge';
-        badge.textContent = w.status;
+        badge.textContent = formatWishBadge(w);
 
         head.appendChild(author);
         head.appendChild(badge);
@@ -1046,7 +1323,10 @@
       if (editIdInput) editIdInput.value = target.id;
       if (nameInput) nameInput.value = target.name;
       if (statusSelect) statusSelect.value = target.status;
-      if (guestsSelect && target.guests) guestsSelect.value = target.guests;
+      if (guestsSelect && target.guests && target.guests !== '-') {
+        guestsSelect.value = target.guests;
+      }
+      updateGuestsFieldVisibility();
       if (messageInput) messageInput.value = target.message;
       if (submitBtn) submitBtn.textContent = 'Simpan Perubahan';
       if (cancelEditBtn) cancelEditBtn.hidden = false;
@@ -1061,12 +1341,18 @@
     }
 
     function deleteWish(id) {
+      var deletedTarget = null;
       wishes = wishes.filter(function (w) {
+        if (w.id === id) deletedTarget = w;
         return w.id !== id;
       });
+      markOwnWishId(id, false);
       saveWishesToStorage(wishes);
       renderWishes();
       resetEditMode();
+      if (deletedTarget) {
+        syncWishToGoogleSheets('delete', deletedTarget);
+      }
       if (feedback) {
         feedback.textContent = 'Ucapan Anda telah dihapus.';
       }
@@ -1082,12 +1368,22 @@
 
     renderWishes();
 
+    // Load live public wishes from Google Sheets if URL is configured
+    fetchWishesFromGoogleSheets().then(function (cloudList) {
+      if (cloudList && cloudList.length > 0) {
+        wishes = cloudList.concat(defaultWishes);
+        saveWishesToStorage(wishes);
+        renderWishes();
+      }
+    });
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
       var name = nameInput && nameInput.value.trim() ? nameInput.value.trim() : 'Sahabat Fajar & Salsa';
       var status = statusSelect ? statusSelect.value : 'Hadir di Aula Univ. KH. Ruhiat';
-      var guests = guestsSelect ? guestsSelect.value : '2 Orang';
+      var isAttending = isAttendingStatus(status);
+      var guests = isAttending && guestsSelect ? guestsSelect.value : '-';
       var message = messageInput && messageInput.value.trim()
         ? messageInput.value.trim()
         : 'Selamat menempuh hidup baru M. Fajar Ardi Alhari, S.Pd. & Salsabila Rahayu, S.Pd.! Semoga sakinah, mawaddah, warahmah.';
@@ -1096,18 +1392,23 @@
 
       var editingId = editIdInput ? editIdInput.value : '';
       if (editingId) {
+        var updatedObj = null;
         for (var i = 0; i < wishes.length; i++) {
           if (wishes[i].id === editingId) {
             wishes[i].name = name;
             wishes[i].status = status;
             wishes[i].guests = guests;
             wishes[i].message = message;
+            updatedObj = wishes[i];
             break;
           }
         }
         saveWishesToStorage(wishes);
         renderWishes();
         resetEditMode();
+        if (updatedObj) {
+          syncWishToGoogleSheets('update', updatedObj);
+        }
         if (feedback) {
           feedback.textContent = 'Perubahan ucapan dari ' + name + ' berhasil disimpan.';
         }
@@ -1120,15 +1421,21 @@
           message: message,
           editable: true
         };
+        markOwnWishId(newWish.id, true);
         wishes.unshift(newWish);
         saveWishesToStorage(wishes);
         renderWishes();
+        if (feed.scrollTo) {
+          feed.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          feed.scrollTop = 0;
+        }
+        syncWishToGoogleSheets('create', newWish);
 
-        var isRemote = status.toLowerCase().indexOf('tidak dapat hadir') !== -1;
         if (feedback) {
-          feedback.textContent = isRemote
-            ? 'Terima kasih ' + name + '! Doa restu Anda telah tersimpan. Silakan gunakan QRIS di bawah bila ingin menitipkan tanda kasih.'
-            : 'Terima kasih ' + name + '! Konfirmasi kehadiran (' + status + ') dan doa restu Anda telah tersimpan.';
+          feedback.textContent = !isAttending
+            ? 'Terima kasih ' + name + '! Doa restu Anda telah tampil di daftar ucapan. Silakan gunakan QRIS di bawah bila ingin menitipkan tanda kasih.'
+            : 'Terima kasih ' + name + '! Konfirmasi kehadiran (' + guests + ') dan doa restu Anda telah tampil di daftar ucapan.';
         }
       }
 
@@ -1192,6 +1499,7 @@
     initGalleryLightbox();
     initGuestAndCountdown();
     initSoundToggle();
+    initCoverGate();
     initCopyButtons();
     initQRISFeatures();
     initRSVPFormAndCRUD();
