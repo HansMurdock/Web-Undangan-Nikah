@@ -109,7 +109,7 @@
     <header class="dash-header">
       <div class="dash-row" style="justify-content: space-between;">
         <span class="small muted">Panel Distribusi Undangan Digital · Fajar &amp; Salsa</span>
-        <a href="index.html" class="btn-outline">Lihat Halaman Utama Undangan</a>
+        <a id="home-main-link" href="index.html" class="btn-outline">Lihat Halaman Utama Undangan</a>
       </div>
       <h1 class="head">Daftar 44 Link Undangan Kepala Sekolah &amp; Generator Tamu</h1>
       <p class="muted">
@@ -208,13 +208,32 @@
       var searchInput = document.getElementById('search-guest-input');
       var container = document.getElementById('guest-cards-container');
 
-      var defaultBase = window.location.href.split('?')[0].replace(/daftar-tamu\.html$/i, '');
-      if (!defaultBase.endsWith('/')) defaultBase += '/';
+      var homeMainLink = document.getElementById('home-main-link');
+
+      function detectDefaultBase() {
+        // Jika dibuka langsung via file:// atau localhost, arahkan ke domain resmi undangan
+        if (!window.location.protocol.startsWith('http') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          return 'https://fajarsalsa.my.id';
+        }
+        // Jika diakses via web (fajarsalsa.my.id atau hosting), ambil origin & buang path /daftar-tamu
+        var origin = window.location.origin;
+        var pathname = window.location.pathname || '';
+        var cleanPath = pathname.replace(/\/(daftar[- %20]*tamu|index)?(\.html)?\/?$/i, '');
+        var full = origin + cleanPath;
+        return full.replace(/\/+$/, '') || 'https://fajarsalsa.my.id';
+      }
+
+      var defaultBase = detectDefaultBase();
       baseUrlInput.value = defaultBase;
 
       function getCleanBase() {
-        var val = baseUrlInput.value.trim() || defaultBase;
-        return val.replace(/\/+$/, '');
+        var val = (baseUrlInput.value || '').trim() || defaultBase;
+        var cleaned = val.replace(/\/(daftar[- %20]*tamu|index)?(\.html)?\/?$/i, '').replace(/\/+$/, '');
+        return cleaned || defaultBase;
+      }
+
+      if (homeMainLink) {
+        homeMainLink.href = (window.location.protocol === 'file:') ? 'index.html' : (getCleanBase() + '/');
       }
 
       function buildGuestUrl(guestName, school, isDuplicateId27) {
@@ -278,7 +297,8 @@
           }
 
           var url = buildGuestUrl(g.name, g.school, g.id === 27);
-          var localHref = 'index.html?to=' + encodeURIComponent(g.name) + (g.id === 27 ? '&org=' + encodeURIComponent(g.school) : '');
+          var q = '?to=' + encodeURIComponent(g.name) + (g.id === 27 ? '&org=' + encodeURIComponent(g.school) : '');
+          var localHref = (window.location.protocol === 'file:') ? ('index.html' + q) : url;
           var waText = buildWhatsAppText(g.name, g.school, url);
           var waHref = 'https://wa.me/?text=' + encodeURIComponent(waText);
 
@@ -311,9 +331,16 @@
         });
       }
 
-      baseUrlInput.addEventListener('input', renderCards);
+      baseUrlInput.addEventListener('input', function () {
+        if (homeMainLink) {
+          homeMainLink.href = (window.location.protocol === 'file:') ? 'index.html' : (getCleanBase() + '/');
+        }
+        updateCustomPreview();
+        renderCards();
+      });
       searchInput.addEventListener('input', renderCards);
       renderCards();
+      updateCustomPreview();
 
       // Custom Guest Generator
       var customNameInput = document.getElementById('custom-guest-name');
@@ -326,7 +353,8 @@
         var cName = customNameInput.value.trim() || 'Tamu Kehormatan';
         var cOrg = customOrgInput.value.trim();
         var q = '?to=' + encodeURIComponent(cName) + (cOrg ? '&org=' + encodeURIComponent(cOrg) : '');
-        openCustomLinkBtn.href = 'index.html' + q;
+        var fullUrl = getCleanBase() + '/' + q;
+        openCustomLinkBtn.href = (window.location.protocol === 'file:') ? ('index.html' + q) : fullUrl;
       }
 
       customNameInput.addEventListener('input', updateCustomPreview);
@@ -336,7 +364,8 @@
         var cName = customNameInput.value.trim() || 'Tamu Kehormatan';
         var cOrg = customOrgInput.value.trim();
         var base = getCleanBase();
-        var url = base + '/?to=' + encodeURIComponent(cName) + (cOrg ? '&org=' + encodeURIComponent(cOrg) : '');
+        var q = '?to=' + encodeURIComponent(cName) + (cOrg ? '&org=' + encodeURIComponent(cOrg) : '');
+        var url = base + '/' + q;
         copyText(url, copyCustomLinkBtn, 'Link Tersalin!');
       });
 
@@ -344,7 +373,8 @@
         var cName = customNameInput.value.trim() || 'Tamu Kehormatan';
         var cOrg = customOrgInput.value.trim();
         var base = getCleanBase();
-        var url = base + '/?to=' + encodeURIComponent(cName) + (cOrg ? '&org=' + encodeURIComponent(cOrg) : '');
+        var q = '?to=' + encodeURIComponent(cName) + (cOrg ? '&org=' + encodeURIComponent(cOrg) : '');
+        var url = base + '/' + q;
         var waText = buildWhatsAppText(cName, cOrg, url);
         copyText(waText, copyCustomWaBtn, 'Teks WA Tersalin!');
       });

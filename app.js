@@ -1181,6 +1181,14 @@
     });
   }
 
+  function stripEmoji(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F900}-\u{1F9FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}]/gu, '')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+  }
+
   function fetchWishesFromGoogleSheets() {
     if (!GOOGLE_SHEETS_API_URL || GOOGLE_SHEETS_API_URL.trim() === '') {
       return Promise.resolve(null);
@@ -1197,10 +1205,10 @@
         var rId = String(r.id || ('sheet-' + Math.random()));
         return {
           id: rId,
-          name: String(r.name || 'Sahabat Fajar & Salsa'),
+          name: stripEmoji(r.name) || 'Sahabat Fajar & Salsa',
           status: String(r.status || 'Hadir di Aula Univ. KH. Ruhiat'),
           guests: String(r.guests || '2 Orang'),
-          message: String(r.message || ''),
+          message: stripEmoji(r.message) || '',
           editable: Boolean(ownIds[rId] || r.editable)
         };
       });
@@ -1264,7 +1272,7 @@
 
         var author = document.createElement('span');
         author.className = 'wish-author';
-        author.textContent = w.name;
+        author.textContent = stripEmoji(w.name);
 
         var badge = document.createElement('span');
         badge.className = 'wish-badge';
@@ -1275,7 +1283,7 @@
 
         var body = document.createElement('p');
         body.className = 'wish-text prose-justify';
-        body.textContent = w.message;
+        body.textContent = stripEmoji(w.message);
 
         item.appendChild(head);
         item.appendChild(body);
